@@ -1,9 +1,9 @@
-import type { Metadata } from 'next'
 import { Noto_Sans_JP } from 'next/font/google'
+import { ReactNode } from 'react'
 import './globals.css'
 import { NextUIProvider } from '@nextui-org/react'
-import { ReactNode } from 'react'
 
+import type { Metadata } from 'next'
 const noto = Noto_Sans_JP({
   subsets: ['latin'],
   variable: '--font-notojp',
