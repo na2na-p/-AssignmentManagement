@@ -1,0 +1,19 @@
+{
+  "name": "AssignmentManagement",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "fmt": "turbo fmt",
+    "test": "turbo test",
+    "type-check": "turbo type-check"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "turbo": "^1.12.3"
+  }
+}
