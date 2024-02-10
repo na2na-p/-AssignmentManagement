@@ -39,6 +39,9 @@ importers:
       '@nestjs/testing':
         specifier: ^10.0.0
         version: 10.3.2(@nestjs/common@10.3.2)(@nestjs/core@10.3.2)(@nestjs/platform-express@10.3.2)
+      '@tsconfig/strictest':
+        specifier: ^2.0.3
+        version: 2.0.3
       '@types/express':
         specifier: ^4.17.17
         version: 4.17.21
@@ -3501,6 +3504,10 @@ packages:
 
   /@tsconfig/node16@1.0.4:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
+    dev: true
+
+  /@tsconfig/strictest@2.0.3:
+    resolution: {integrity: sha512-MroLvRhMbqtXI5WBSwoomro6OQS4xnCoudUrMb20JO0vLKUs0bAaCEcvM/immEBSJjFAK1l6jW1oAO8q3Ancrg==}
     dev: true
 
   /@types/babel__core@7.20.5:

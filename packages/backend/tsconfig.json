@@ -1,21 +1,41 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
-    "strictBindCallApply": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true
-  }
+	"extends": "@tsconfig/strictest",
+	"compilerOptions": {
+		"lib": [
+			"ESNext"
+		],
+		"incremental": false,
+		"verbatimModuleSyntax": true,
+		"target": "ESNext",
+		"module": "NodeNext",
+		"rootDir": ".",
+		"typeRoots": [
+			"src/@types",
+			"node_modules/@types"
+		],
+		"baseUrl": ".",
+		"outDir": "./dist",
+		"paths": {
+			"@/*": [
+				"src/*"
+			],
+			"@modules/*": [
+				"src/modules/*"
+			],
+			"@config/*": [
+				".config/*"
+			],
+			"@utils/*": [
+				"src/utils/*"
+			]
+		},
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"experimentalDecorators": true
+	},
+	"include": [
+		"src",
+		"node_modules/vitest/globals.d.ts",
+		"vite.config.ts"
+	],
 }
