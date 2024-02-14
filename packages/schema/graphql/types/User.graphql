@@ -2,28 +2,28 @@
 ユーザー
 """
 type User implements Node {
-    """
-    UUIDv7 ID
-    """
-    id: ID!
+  """
+  UUIDv7 ID
+  """
+  id: ID!
 
-    """
-    メールアドレス
-    """
-    email: Email!
+  """
+  メールアドレス
+  """
+  email: Email!
 
-    """
-    ロールタイプ
-    """
-    userableType: UserUserableType!
+  """
+  ロールタイプ
+  """
+  userableType: UserUserableType!
 
-    """
-    学生
-    """
-    student: Student
+  """
+  学生
+  """
+  student: Student
 
-    """
-    教員
-    """
-    staff: Staff
+  """
+  教員
+  """
+  staff: Staff
 }

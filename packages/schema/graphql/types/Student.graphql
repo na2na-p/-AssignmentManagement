@@ -2,38 +2,38 @@
 学生
 """
 type Student implements Node {
-    """
-    ID
-    """
-    id: ID!
+  """
+  ID
+  """
+  id: ID!
 
-    """
-    担任スタッフ
-    """
-    staff: Staff!
+  """
+  担任スタッフ
+  """
+  staff: Staff!
 
-    """
-    学生の名前
-    """
-    name: String!
+  """
+  学生の名前
+  """
+  name: String!
 
-    """
-    学籍番号
-    """
-    studentNumber: String!
+  """
+  学籍番号
+  """
+  studentNumber: String!
 
-    """
-    クラス記号
-    """
-    classId: String!
+  """
+  クラス記号
+  """
+  classId: String!
 
-    """
-    選択したクラス記号
-    """
-    selectedClassId: String
+  """
+  選択したクラス記号
+  """
+  selectedClassId: String
 
-    """
-    マネージャーロールがあるかどうか
-    """
-    hasManagerRole: Boolean!
+  """
+  マネージャーロールがあるかどうか
+  """
+  hasManagerRole: Boolean!
 }
