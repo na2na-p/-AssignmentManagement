@@ -1,0 +1,4 @@
+enum UserUserableType {
+    USER_USERABLE_TYPE_STUDENT
+    USER_USERABLE_TYPE_STAFF
+}
