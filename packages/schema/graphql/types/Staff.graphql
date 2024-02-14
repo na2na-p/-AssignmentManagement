@@ -1,0 +1,14 @@
+"""
+スタッフ
+"""
+type Staff implements Node {
+    """
+    UUIDv7 ID
+    """
+    id: ID!
+
+    """
+    スタッフの名前
+    """
+    name: String!
+}
