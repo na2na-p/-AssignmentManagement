@@ -218,3 +218,11 @@ schema {
   query: Query
   mutation: Mutation
 }
+
+"""
+ビューア
+"""
+type Viewer {
+  me: User!
+  assignedSubjects: [Subject!]
+}
