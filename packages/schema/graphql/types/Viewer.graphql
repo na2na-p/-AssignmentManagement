@@ -1,0 +1,7 @@
+"""
+ビューア
+"""
+type Viewer {
+  me: User!
+  assignedSubjects: [Subject!]
+}
