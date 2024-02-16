@@ -92,6 +92,37 @@ scalar Password
 type Query {
   hello: String
   """
+  課題の取得
+  """
+  subject(
+    """
+    UUIDv7 ID
+    """
+    id: ID!
+  ): Subject!
+  """
+  課題の複数取得
+  """
+  allSubjects(
+    """
+    ページ番号
+    """
+    page: Int
+    """
+    1ページあたりの表示数
+    """
+    perPage: Int
+    """
+    ソートフィールド
+    """
+    sortField: String
+    """
+    ソート順
+    """
+    sortOrder: String
+    filter: SubjectStateFilter
+  ): [Subject!]!
+  """
   現在ログインしているユーザーの情報を取得します。
   """
   Viewer: Viewer!
@@ -164,6 +195,16 @@ type Mutation {
     課題情報
     """
     subject: SubjectCreateInput!
+  ): Subject!
+  """
+  課題情報の更新
+  """
+  updateSubject(
+    id: ID!
+    """
+    課題情報
+    """
+    subject: SubjectUpdateInput!
   ): Subject!
   """
   提出物の登録
@@ -371,6 +412,40 @@ input SubjectCreateInput {
   課題の締め切り日時
   """
   deadline: DateTime!
+}
+
+input SubjectUpdateInput {
+  """
+  課題No.
+  """
+  number: Int
+  """
+  課題主題
+  """
+  title: String
+  """
+  科目記号
+  """
+  code: String
+  """
+  受付状態
+  """
+  status: SubjectStateStatus
+  """
+  課題の説明
+  """
+  description: String
+  """
+  課題の締め切り日時
+  """
+  deadline: DateTime
+}
+
+input SubjectStateFilter {
+  """
+  受付状態
+  """
+  status: SubjectStateStatus
 }
 
 """

@@ -23,7 +23,7 @@ type Subject implements Node {
   code: String!
 
   """
-  ステータス
+  受付状態
   """
   status: SubjectStateStatus!
 
@@ -41,4 +41,133 @@ type Subject implements Node {
   課題の締め切り日時
   """
   deadline: DateTime!
+}
+
+input SubjectCreateInput {
+  """
+  課題No.
+  """
+  number: Int!
+
+  """
+  課題主題
+  """
+  title: String!
+
+  """
+  科目記号
+  """
+  code: String!
+
+  """
+  受付状態
+  """
+  status: SubjectStateStatus!
+
+  """
+  課題の説明
+  """
+  description: String!
+
+  """
+  課題の締め切り日時
+  """
+  deadline: DateTime!
+}
+
+input SubjectUpdateInput {
+  """
+  課題No.
+  """
+  number: Int
+
+  """
+  課題主題
+  """
+  title: String
+
+  """
+  科目記号
+  """
+  code: String
+
+  """
+  受付状態
+  """
+  status: SubjectStateStatus
+
+  """
+  課題の説明
+  """
+  description: String
+
+  """
+  課題の締め切り日時
+  """
+  deadline: DateTime
+}
+
+extend type Mutation {
+  """
+  課題の登録
+  """
+  createSubject(
+    """
+    課題情報
+    """
+    subject: SubjectCreateInput!
+  ): Subject!
+
+  """
+  課題情報の更新
+  """
+  updateSubject(
+    id: ID!
+    """
+    課題情報
+    """
+    subject: SubjectUpdateInput!
+  ): Subject!
+}
+
+input SubjectStateFilter {
+  """
+  受付状態
+  """
+  status: SubjectStateStatus
+}
+
+extend type Query {
+  """
+  課題の取得
+  """
+  subject(
+    """
+    UUIDv7 ID
+    """
+    id: ID!
+  ): Subject!
+
+  """
+  課題の複数取得
+  """
+  allSubjects(
+    """
+    ページ番号
+    """
+    page: Int
+    """
+    1ページあたりの表示数
+    """
+    perPage: Int
+    """
+    ソートフィールド
+    """
+    sortField: String
+    """
+    ソート順
+    """
+    sortOrder: String
+    filter: SubjectStateFilter
+  ): [Subject!]!
 }
