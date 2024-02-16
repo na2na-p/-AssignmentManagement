@@ -1,0 +1,234 @@
+"""
+選択肢
+"""
+type Choice implements Node {
+  """
+  ID
+  """
+  id: ID!
+  """
+  表示名
+  """
+  name: String!
+}
+
+type UpdateManyResult {
+  """
+  一括アップデートしたID
+  """
+  id: ID!
+}
+
+type DeleteManyResult {
+  """
+  一括削除したID
+  """
+  id: ID!
+}
+
+enum UserUserableType {
+  USER_USERABLE_TYPE_STUDENT
+  USER_USERABLE_TYPE_STAFF
+}
+
+"""
+An ISO-8601 encoded JST datetime string.
+"""
+scalar DateTime
+
+"""
+An ISO-8601 encoded JST date string.
+"""
+scalar Date
+
+"""
+An ISO-8601 encoded JST time string. e.g. 12:34 at 12:34 JST.
+"""
+scalar Time
+
+"""
+An RFC 3986, RFC 3987, and RFC 6570 (level 4) compliant URI string.
+"""
+scalar URI
+
+"""
+Email Address pattern string (RFC 5322 and 6854).
+https://en.wikipedia.org/wiki/Email_address
+"""
+scalar Email
+
+"""
+Password
+"""
+scalar Password
+
+type Query {
+  hello: String
+}
+
+type Mutation {
+  hello: String
+}
+
+"""
+全てのTypeのInterface
+"""
+interface Node {
+  """
+  ID
+  """
+  id: ID!
+}
+
+"""
+スタッフ
+"""
+type Staff implements Node {
+  """
+  UUIDv7 ID
+  """
+  id: ID!
+  """
+  スタッフの名前
+  """
+  name: String!
+}
+
+"""
+学生
+"""
+type Student implements Node {
+  """
+  ID
+  """
+  id: ID!
+  """
+  担任スタッフ
+  """
+  staff: Staff!
+  """
+  学生の名前
+  """
+  name: String!
+  """
+  学籍番号
+  """
+  studentNumber: String!
+  """
+  クラス記号
+  """
+  classId: String!
+  """
+  選択したクラス記号
+  """
+  selectedClassId: String
+  """
+  マネージャーロールがあるかどうか
+  """
+  hasManagerRole: Boolean!
+}
+
+"""
+課題
+"""
+type Subject implements Node {
+  """
+  UUIDv7 ID
+  """
+  id: ID!
+  """
+  課題No.
+  """
+  number: Int!
+  """
+  課題主題
+  """
+  title: String!
+  """
+  科目記号
+  """
+  code: String!
+  """
+  課題の説明
+  """
+  description: String!
+  """
+  課題を作成したスタッフ
+  """
+  createdBy: Staff!
+  """
+  課題の締め切り日時
+  """
+  deadline: DateTime!
+}
+
+"""
+提出物
+"""
+type Submission implements Node {
+  """
+  UUIDv7 ID
+  """
+  id: ID!
+  """
+  課題
+  """
+  subject: Subject!
+  """
+  学生
+  """
+  student: Student!
+  """
+  提出日時
+  """
+  submittedAt: DateTime!
+  """
+  提出内容
+  """
+  content: String!
+}
+
+"""
+ユーザー
+"""
+type User implements Node {
+  """
+  UUIDv7 ID
+  """
+  id: ID!
+  """
+  メールアドレス
+  """
+  email: Email!
+  """
+  ロールタイプ
+  """
+  userableType: UserUserableType!
+  """
+  学生
+  """
+  student: Student
+  """
+  教員
+  """
+  staff: Staff
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"""
+ビューア
+"""
+type Viewer {
+  """
+  ユーザー
+  """
+  me: User!
+  """
+  抱えている課題
+  """
+  assignedSubjects: [Subject!]
+}

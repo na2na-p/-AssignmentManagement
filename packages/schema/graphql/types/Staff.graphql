@@ -2,13 +2,13 @@
 スタッフ
 """
 type Staff implements Node {
-    """
-    UUIDv7 ID
-    """
-    id: ID!
+  """
+  UUIDv7 ID
+  """
+  id: ID!
 
-    """
-    スタッフの名前
-    """
-    name: String!
+  """
+  スタッフの名前
+  """
+  name: String!
 }

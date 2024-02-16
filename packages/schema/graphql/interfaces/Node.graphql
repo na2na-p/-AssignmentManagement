@@ -2,8 +2,8 @@
 全てのTypeのInterface
 """
 interface Node {
-    """
-    ID
-    """
-    id: ID!
+  """
+  ID
+  """
+  id: ID!
 }

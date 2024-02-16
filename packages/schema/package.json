@@ -1,0 +1,20 @@
+{
+  "name": "schema",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "scripts": {
+    "lint": "graphql-schema-linter",
+    "fmt": "prettier --config ./.prettierrc  --list-different \"graphql/**/*.graphql\"",
+    "fmt:fix": "pnpm fmt --write",
+    "build": "node ./schemaMerger.mjs && pnpm fmt:fix"
+  },
+  "devDependencies": {
+    "@graphql-tools/load-files": "^7.0.0",
+    "@graphql-tools/merge": "^9.0.1",
+    "graphql": "^16.8.1",
+    "graphql-schema-linter": "^3.0.1"
+  }
+}

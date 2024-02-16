@@ -2,27 +2,27 @@
 選択肢
 """
 type Choice implements Node {
-    """
-    ID
-    """
-    id: ID!
+  """
+  ID
+  """
+  id: ID!
 
-    """
-    表示名
-    """
-    name: String!
+  """
+  表示名
+  """
+  name: String!
 }
 
 type UpdateManyResult {
-    """
-    一括アップデートしたID
-    """
-    id: ID!
+  """
+  一括アップデートしたID
+  """
+  id: ID!
 }
 
 type DeleteManyResult {
-    """
-    一括削除したID
-    """
-    id: ID!
+  """
+  一括削除したID
+  """
+  id: ID!
 }
