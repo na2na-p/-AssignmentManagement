@@ -26,14 +26,36 @@ type DeleteManyResult {
   id: ID!
 }
 
+"""
+ユーザー種別
+"""
 enum UserUserableType {
+  """
+  学生
+  """
   USER_USERABLE_TYPE_STUDENT
+  """
+  教員
+  """
   USER_USERABLE_TYPE_STAFF
 }
 
+"""
+課題の受付状況
+"""
 enum SubjectStateStatus {
+  """
+  受付中
+  """
   SUBJECT_STATE_STATUS_OPEN
-  SUBJECT_STATE_STATUS_CLOSED
+  """
+  締め切り
+  """
+  SUBJECT_STATE_STATUS_CLOSE
+  """
+  一時停止中
+  """
+  SUBJECT_STATE_STATUS_SUSPEND
 }
 
 """
@@ -103,9 +125,9 @@ type Mutation {
     """
     user: UserCreateInput!
     """
-    スタッフの名前
+    スタッフ情報
     """
-    name: String!
+    staff: StaffCreateInput!
   ): Staff!
   """
   スタッフ情報の更新
@@ -135,6 +157,15 @@ type Mutation {
   """
   updateStudent(id: ID!, student: StudentUpdateInput!): Student
   """
+  課題の登録
+  """
+  createSubject(
+    """
+    課題情報
+    """
+    subject: SubjectCreateInput!
+  ): Subject!
+  """
   提出物の登録
   """
   createSubmission(
@@ -156,6 +187,20 @@ interface Node {
 }
 
 """
+認証レスポンス
+"""
+type AuthResponse {
+  """
+  JWTトークン
+  """
+  token: String!
+  """
+  ユーザー
+  """
+  user: User!
+}
+
+"""
 スタッフ
 """
 type Staff implements Node {
@@ -167,6 +212,20 @@ type Staff implements Node {
   スタッフの名前
   """
   name: String!
+}
+
+input StaffCreateInput {
+  """
+  スタッフの名前
+  """
+  name: String!
+}
+
+input StaffUpdateInput {
+  """
+  スタッフの名前
+  """
+  name: String
 }
 
 """
@@ -201,143 +260,6 @@ type Student implements Node {
   マネージャーロールがあるかどうか
   """
   hasManagerRole: Boolean!
-}
-
-"""
-課題
-"""
-type Subject implements Node {
-  """
-  UUIDv7 ID
-  """
-  id: ID!
-  """
-  課題No.
-  """
-  number: Int!
-  """
-  課題主題
-  """
-  title: String!
-  """
-  科目記号
-  """
-  code: String!
-  """
-  課題の説明
-  """
-  description: String!
-  """
-  課題を作成したスタッフ
-  """
-  createdBy: Staff!
-  """
-  課題の締め切り日時
-  """
-  deadline: DateTime!
-  """
-  ステータス
-  """
-  status: SubjectStateStatus!
-}
-
-"""
-提出物
-"""
-type Submission implements Node {
-  """
-  UUIDv7 ID
-  """
-  id: ID!
-  """
-  課題
-  """
-  subject: Subject!
-  """
-  学生
-  """
-  student: Student!
-  """
-  提出日時
-  """
-  submittedAt: DateTime!
-  """
-  提出内容
-  """
-  content: String!
-}
-
-"""
-ユーザー
-"""
-type User implements Node {
-  """
-  UUIDv7 ID
-  """
-  id: ID!
-  """
-  メールアドレス
-  """
-  email: Email!
-  """
-  ロールタイプ
-  """
-  userableType: UserUserableType!
-  """
-  学生
-  """
-  student: Student
-  """
-  教員
-  """
-  staff: Staff
-}
-
-schema {
-  query: Query
-  mutation: Mutation
-}
-
-"""
-ビューア
-"""
-type Viewer {
-  """
-  ユーザー
-  """
-  me: User!
-  """
-  抱えている課題
-  """
-  assignedSubjects: [Subject!]
-}
-
-"""
-認証レスポンス
-"""
-type AuthResponse {
-  """
-  JWTトークン
-  """
-  token: String!
-  """
-  ユーザー
-  """
-  user: User!
-}
-
-input StaffCreateInput {
-  """
-  スタッフの名前
-  """
-  name: String!
-}
-
-input StaffUpdateInput {
-  """
-  スタッフの名前
-  """
-  name: String
 }
 
 input StudentCreateInput {
@@ -386,6 +308,93 @@ input StudentUpdateInput {
   hasManagerRole: Boolean
 }
 
+"""
+課題
+"""
+type Subject implements Node {
+  """
+  UUIDv7 ID
+  """
+  id: ID!
+  """
+  課題No.
+  """
+  number: Int!
+  """
+  課題主題
+  """
+  title: String!
+  """
+  科目記号
+  """
+  code: String!
+  """
+  受付状態
+  """
+  status: SubjectStateStatus!
+  """
+  課題の説明
+  """
+  description: String!
+  """
+  課題を作成したスタッフ
+  """
+  createdBy: Staff!
+  """
+  課題の締め切り日時
+  """
+  deadline: DateTime!
+}
+
+input SubjectCreateInput {
+  """
+  課題No.
+  """
+  number: Int!
+  """
+  課題主題
+  """
+  title: String!
+  """
+  科目記号
+  """
+  code: String!
+  """
+  受付状態
+  """
+  status: SubjectStateStatus!
+  """
+  課題の説明
+  """
+  description: String!
+  """
+  課題の締め切り日時
+  """
+  deadline: DateTime!
+}
+
+"""
+提出物
+"""
+type Submission implements Node {
+  """
+  UUIDv7 ID
+  """
+  id: ID!
+  """
+  課題
+  """
+  subject: Subject!
+  """
+  学生
+  """
+  student: Student!
+  """
+  提出日時
+  """
+  submittedAt: DateTime!
+}
+
 input SubmissionCreateInput {
   """
   課題
@@ -397,9 +406,54 @@ input SubmissionCreateInput {
   studentId: ID!
 }
 
+"""
+ユーザー
+"""
+type User implements Node {
+  """
+  UUIDv7 ID
+  """
+  id: ID!
+  """
+  メールアドレス
+  """
+  email: Email!
+  """
+  ロールタイプ
+  """
+  userableType: UserUserableType!
+  """
+  学生
+  """
+  student: Student
+  """
+  教員
+  """
+  staff: Staff
+}
+
 input UserCreateInput {
   """
   メールアドレス
   """
   email: Email!
+}
+
+"""
+ビューア
+"""
+type Viewer {
+  """
+  ユーザー
+  """
+  me: User
+  """
+  抱えている課題
+  """
+  assignedSubjects: [Subject!]
+}
+
+schema {
+  query: Query
+  mutation: Mutation
 }

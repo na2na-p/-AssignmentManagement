@@ -1,9 +1,31 @@
+"""
+ユーザー種別
+"""
 enum UserUserableType {
+  """
+  学生
+  """
   USER_USERABLE_TYPE_STUDENT
+  """
+  教員
+  """
   USER_USERABLE_TYPE_STAFF
 }
 
+"""
+課題の受付状況
+"""
 enum SubjectStateStatus {
+  """
+  受付中
+  """
   SUBJECT_STATE_STATUS_OPEN
-  SUBJECT_STATE_STATUS_CLOSED
+  """
+  締め切り
+  """
+  SUBJECT_STATE_STATUS_CLOSE
+  """
+  一時停止中
+  """
+  SUBJECT_STATE_STATUS_SUSPEND
 }

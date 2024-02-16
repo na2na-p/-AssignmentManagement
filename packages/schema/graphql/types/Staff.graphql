@@ -37,9 +37,9 @@ extend type Mutation {
     """
     user: UserCreateInput!
     """
-    スタッフの名前
+    スタッフ情報
     """
-    name: String!
+    staff: StaffCreateInput!
   ): Staff!
 
   """
