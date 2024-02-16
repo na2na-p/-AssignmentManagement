@@ -11,3 +11,10 @@ type Viewer {
   """
   assignedSubjects: [Subject!]
 }
+
+extend type Query {
+  """
+  現在ログインしているユーザーの情報を取得します。
+  """
+  Viewer: Viewer!
+}
