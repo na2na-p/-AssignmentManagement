@@ -21,9 +21,28 @@ type Submission implements Node {
   提出日時
   """
   submittedAt: DateTime!
+}
+
+input SubmissionCreateInput {
+  """
+  課題
+  """
+  subject: ID!
 
   """
-  提出内容
+  学生
   """
-  content: String!
+  studentId: ID!
+}
+
+extend type Mutation {
+  """
+  提出物の登録
+  """
+  createSubmission(
+    """
+    提出物情報
+    """
+    submission: SubmissionCreateInput!
+  ): Submission!
 }
