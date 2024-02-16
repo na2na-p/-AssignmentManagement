@@ -1,0 +1,34 @@
+"""
+認証レスポンス
+"""
+type AuthResponse {
+	"""
+	JWTトークン
+	"""
+  token: String!
+	"""
+	ユーザー
+	"""
+  user: User!
+}
+
+extend type Mutation {
+  """
+  サインイン
+  """
+  signIn(
+    """
+    メールアドレス
+    """
+    email: Email!
+    """
+    パスワード
+    """
+    password: String!
+  ): AuthResponse!
+
+  """
+  サインアウト
+  """
+  signOut: Boolean
+}
