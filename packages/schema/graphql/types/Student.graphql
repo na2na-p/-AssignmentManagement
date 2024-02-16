@@ -37,3 +37,81 @@ type Student implements Node {
   """
   hasManagerRole: Boolean!
 }
+
+input StudentCreateInput {
+  """
+  パスワード
+  """
+  password: Password!
+
+  """
+  学生の名前
+  """
+  name: String!
+
+  """
+  学籍番号
+  """
+  studentNumber: String!
+
+  """
+  クラス記号
+  """
+  classId: String!
+
+  """
+  マネージャーロールがあるかどうか
+  """
+  hasManagerRole: Boolean!
+}
+
+input StudentUpdateInput {
+	"""
+	学生の名前
+	"""
+	name: String
+
+	"""
+	学籍番号
+	"""
+	studentNumber: String
+
+	"""
+	クラス記号
+	"""
+	classId: String
+
+	"""
+	選択したクラス記号
+	"""
+	selectedClassId: String
+
+	"""
+	マネージャーロールがあるかどうか
+	"""
+	hasManagerRole: Boolean
+}
+
+extend type Mutation {
+  """
+	学生の登録
+  """
+  createStudent(
+    """
+    ユーザ情報
+    """
+    user: UserCreateInput!
+    """
+    学生情報
+    """
+    student: StudentCreateInput!
+  ): User
+
+  """
+  学生情報の更新
+  """
+  updateStudent(
+    id: ID!
+		student: StudentUpdateInput!
+  ): Student
+}
