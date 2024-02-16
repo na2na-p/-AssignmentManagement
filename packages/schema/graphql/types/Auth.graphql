@@ -2,13 +2,13 @@
 認証レスポンス
 """
 type AuthResponse {
-	"""
-	JWTトークン
-	"""
+  """
+  JWTトークン
+  """
   token: String!
-	"""
-	ユーザー
-	"""
+  """
+  ユーザー
+  """
   user: User!
 }
 

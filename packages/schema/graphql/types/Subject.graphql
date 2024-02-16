@@ -22,10 +22,10 @@ type Subject implements Node {
   """
   code: String!
 
-	"""
-	ステータス
-	"""
-	status: SubjectStateStatus!
+  """
+  ステータス
+  """
+  status: SubjectStateStatus!
 
   """
   課題の説明
