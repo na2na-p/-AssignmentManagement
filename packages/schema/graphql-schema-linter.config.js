@@ -3,7 +3,6 @@ module.exports = {
     'rguments-have-descriptions',
     'defined-types-are-used',
     'deprecations-have-a-reason',
-    'descriptions-are-capitalized',
     'enum-values-all-caps',
     'enum-values-have-descriptions',
     'fields-have-descriptions',
@@ -18,6 +17,7 @@ module.exports = {
   schemaPaths: ['./graphql/dist/schema.graphql'],
   // NOTE: ホワイトリスト方式なのでignoreに追加しても無効にならない
   // ignore: [
+  // 'descriptions-are-capitalized',
   // 'fields-are-camel-cased',
   // 'enum-values-sorted-alphabetically',
   // 'type-fields-sorted-alphabetically',

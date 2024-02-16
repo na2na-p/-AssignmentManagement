@@ -12,6 +12,9 @@ type Choice implements Node {
   name: String!
 }
 
+"""
+一括更新結果
+"""
 type UpdateManyResult {
   """
   一括アップデートしたID
@@ -19,6 +22,9 @@ type UpdateManyResult {
   id: ID!
 }
 
+"""
+一括削除結果
+"""
 type DeleteManyResult {
   """
   一括削除したID
@@ -89,7 +95,13 @@ Password
 """
 scalar Password
 
+"""
+クエリ
+"""
 type Query {
+  """
+  dummy
+  """
   hello: String
   """
   課題の取得
@@ -128,7 +140,13 @@ type Query {
   Viewer: Viewer!
 }
 
+"""
+ミューテーション
+"""
 type Mutation {
+  """
+  dummy
+  """
   hello: String
   """
   サインイン
@@ -255,6 +273,9 @@ type Staff implements Node {
   name: String!
 }
 
+"""
+スタッフ作成用
+"""
 input StaffCreateInput {
   """
   スタッフの名前
@@ -262,6 +283,9 @@ input StaffCreateInput {
   name: String!
 }
 
+"""
+スタッフ更新用
+"""
 input StaffUpdateInput {
   """
   スタッフの名前
@@ -303,6 +327,9 @@ type Student implements Node {
   hasManagerRole: Boolean!
 }
 
+"""
+学生作成用
+"""
 input StudentCreateInput {
   """
   パスワード
@@ -326,6 +353,9 @@ input StudentCreateInput {
   hasManagerRole: Boolean!
 }
 
+"""
+学生更新用
+"""
 input StudentUpdateInput {
   """
   学生の名前
@@ -387,6 +417,9 @@ type Subject implements Node {
   deadline: DateTime!
 }
 
+"""
+課題作成用
+"""
 input SubjectCreateInput {
   """
   課題No.
@@ -414,6 +447,9 @@ input SubjectCreateInput {
   deadline: DateTime!
 }
 
+"""
+課題更新用
+"""
 input SubjectUpdateInput {
   """
   課題No.
@@ -441,6 +477,9 @@ input SubjectUpdateInput {
   deadline: DateTime
 }
 
+"""
+課題複数取得用フィルタ
+"""
 input SubjectStateFilter {
   """
   受付状態
@@ -470,6 +509,9 @@ type Submission implements Node {
   submittedAt: DateTime!
 }
 
+"""
+課題提出用
+"""
 input SubmissionCreateInput {
   """
   課題
@@ -507,6 +549,9 @@ type User implements Node {
   staff: Staff
 }
 
+"""
+ユーザ作成用
+"""
 input UserCreateInput {
   """
   メールアドレス

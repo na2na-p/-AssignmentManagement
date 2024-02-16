@@ -23,6 +23,9 @@ type Submission implements Node {
   submittedAt: DateTime!
 }
 
+"""
+課題提出用
+"""
 input SubmissionCreateInput {
   """
   課題

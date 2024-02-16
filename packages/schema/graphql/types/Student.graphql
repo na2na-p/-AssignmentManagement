@@ -38,6 +38,9 @@ type Student implements Node {
   hasManagerRole: Boolean!
 }
 
+"""
+学生作成用
+"""
 input StudentCreateInput {
   """
   パスワード
@@ -65,6 +68,9 @@ input StudentCreateInput {
   hasManagerRole: Boolean!
 }
 
+"""
+学生更新用
+"""
 input StudentUpdateInput {
   """
   学生の名前

@@ -43,6 +43,9 @@ type Subject implements Node {
   deadline: DateTime!
 }
 
+"""
+課題作成用
+"""
 input SubjectCreateInput {
   """
   課題No.
@@ -75,6 +78,9 @@ input SubjectCreateInput {
   deadline: DateTime!
 }
 
+"""
+課題更新用
+"""
 input SubjectUpdateInput {
   """
   課題No.
@@ -130,6 +136,9 @@ extend type Mutation {
   ): Subject!
 }
 
+"""
+課題複数取得用フィルタ
+"""
 input SubjectStateFilter {
   """
   受付状態
