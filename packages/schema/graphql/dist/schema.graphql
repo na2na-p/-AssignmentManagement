@@ -31,6 +31,11 @@ enum UserUserableType {
   USER_USERABLE_TYPE_STAFF
 }
 
+enum SubjectStateStatus {
+  SUBJECT_STATE_STATUS_OPEN
+  SUBJECT_STATE_STATUS_CLOSED
+}
+
 """
 An ISO-8601 encoded JST datetime string.
 """
@@ -64,10 +69,80 @@ scalar Password
 
 type Query {
   hello: String
+  """
+  現在ログインしているユーザーの情報を取得します。
+  """
+  Viewer: Viewer!
 }
 
 type Mutation {
   hello: String
+  """
+  サインイン
+  """
+  signIn(
+    """
+    メールアドレス
+    """
+    email: Email!
+    """
+    パスワード
+    """
+    password: String!
+  ): AuthResponse!
+  """
+  サインアウト
+  """
+  signOut: Boolean
+  """
+  スタッフの登録
+  """
+  createStaff(
+    """
+    ユーザ情報
+    """
+    user: UserCreateInput!
+    """
+    スタッフの名前
+    """
+    name: String!
+  ): Staff!
+  """
+  スタッフ情報の更新
+  """
+  updateStaff(
+    id: ID!
+    """
+    スタッフ情報
+    """
+    staff: StaffUpdateInput!
+  ): Staff!
+  """
+  学生の登録
+  """
+  createStudent(
+    """
+    ユーザ情報
+    """
+    user: UserCreateInput!
+    """
+    学生情報
+    """
+    student: StudentCreateInput!
+  ): User
+  """
+  学生情報の更新
+  """
+  updateStudent(id: ID!, student: StudentUpdateInput!): Student
+  """
+  提出物の登録
+  """
+  createSubmission(
+    """
+    提出物情報
+    """
+    submission: SubmissionCreateInput!
+  ): Submission!
 }
 
 """
@@ -160,6 +235,10 @@ type Subject implements Node {
   課題の締め切り日時
   """
   deadline: DateTime!
+  """
+  ステータス
+  """
+  status: SubjectStateStatus!
 }
 
 """
@@ -231,4 +310,96 @@ type Viewer {
   抱えている課題
   """
   assignedSubjects: [Subject!]
+}
+
+"""
+認証レスポンス
+"""
+type AuthResponse {
+  """
+  JWTトークン
+  """
+  token: String!
+  """
+  ユーザー
+  """
+  user: User!
+}
+
+input StaffCreateInput {
+  """
+  スタッフの名前
+  """
+  name: String!
+}
+
+input StaffUpdateInput {
+  """
+  スタッフの名前
+  """
+  name: String
+}
+
+input StudentCreateInput {
+  """
+  パスワード
+  """
+  password: Password!
+  """
+  学生の名前
+  """
+  name: String!
+  """
+  学籍番号
+  """
+  studentNumber: String!
+  """
+  クラス記号
+  """
+  classId: String!
+  """
+  マネージャーロールがあるかどうか
+  """
+  hasManagerRole: Boolean!
+}
+
+input StudentUpdateInput {
+  """
+  学生の名前
+  """
+  name: String
+  """
+  学籍番号
+  """
+  studentNumber: String
+  """
+  クラス記号
+  """
+  classId: String
+  """
+  選択したクラス記号
+  """
+  selectedClassId: String
+  """
+  マネージャーロールがあるかどうか
+  """
+  hasManagerRole: Boolean
+}
+
+input SubmissionCreateInput {
+  """
+  課題
+  """
+  subject: ID!
+  """
+  学生
+  """
+  studentId: ID!
+}
+
+input UserCreateInput {
+  """
+  メールアドレス
+  """
+  email: Email!
 }
