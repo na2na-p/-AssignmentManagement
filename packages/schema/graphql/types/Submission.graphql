@@ -1,0 +1,29 @@
+"""
+提出物
+"""
+type Submission implements Node {
+    """
+    UUIDv7 ID
+    """
+    id: ID!
+
+    """
+    課題
+    """
+    subject: Subject!
+
+    """
+    学生
+    """
+    student: Student!
+
+    """
+    提出日時
+    """
+    submittedAt: DateTime!
+
+    """
+    提出内容
+    """
+    content: String!
+}

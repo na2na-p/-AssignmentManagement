@@ -1,0 +1,13 @@
+"""
+ビューア
+"""
+type Viewer {
+  """
+    ユーザー
+  """
+  me: User
+  """
+    抱えている課題
+  """
+  assignedSubjects: [Subject!]
+}

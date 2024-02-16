@@ -1,0 +1,39 @@
+"""
+課題
+"""
+type Subject implements Node {
+    """
+    UUIDv7 ID
+    """
+    id: ID!
+
+    """
+    課題No.
+    """
+    number: Int!
+
+    """
+    課題主題
+    """
+    title: String!
+
+    """
+    科目記号
+    """
+    code: String!
+
+    """
+    課題の説明
+    """
+    description: String!
+
+    """
+    課題を作成したスタッフ
+    """
+    createdBy: Staff!
+
+    """
+    課題の締め切り日時
+    """
+    deadline: DateTime!
+}
