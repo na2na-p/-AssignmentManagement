@@ -1,0 +1,25 @@
+"""
+クラス
+"""
+type ClassRoom implements Node {
+  """
+  UUIDv7 ID
+  """
+  id: ID!
+
+  """
+  クラス記号
+  """
+  classId: String!
+
+  """
+  担任スタッフ
+  """
+  staff: Staff
+
+  """
+  担任スタッフの名前
+  NOTE: 課題提出時に当該スタッフが存在しなければ、入力値をここに詰める
+  """
+  staffName: String!
+}

@@ -260,6 +260,29 @@ type AuthResponse {
 }
 
 """
+クラス
+"""
+type ClassRoom implements Node {
+  """
+  UUIDv7 ID
+  """
+  id: ID!
+  """
+  クラス記号
+  """
+  classId: String!
+  """
+  担任スタッフ
+  """
+  staff: Staff
+  """
+  担任スタッフの名前
+  NOTE: 課題提出時に当該スタッフが存在しなければ、入力値をここに詰める
+  """
+  staffName: String!
+}
+
+"""
 スタッフ
 """
 type Staff implements Node {
@@ -302,9 +325,13 @@ type Student implements Node {
   """
   id: ID!
   """
-  担任スタッフ
+  クラス
   """
-  staff: Staff!
+  classRoom: ClassRoom!
+  """
+  担任スタッフの名前
+  """
+  staffName: String!
   """
   学生の名前
   """
@@ -314,13 +341,9 @@ type Student implements Node {
   """
   studentNumber: String!
   """
-  クラス記号
-  """
-  classId: String!
-  """
   選択したクラス記号
   """
-  selectedClassId: String
+  selectedClassIds: [String!]
   """
   マネージャーロールがあるかどうか
   """
@@ -348,6 +371,10 @@ input StudentCreateInput {
   """
   classId: String!
   """
+  担任スタッフの名前
+  """
+  staffName: String!
+  """
   マネージャーロールがあるかどうか
   """
   hasManagerRole: Boolean!
@@ -373,6 +400,10 @@ input StudentUpdateInput {
   選択したクラス記号
   """
   selectedClassId: String
+  """
+  担任スタッフの名前
+  """
+  staffName: String
   """
   マネージャーロールがあるかどうか
   """
@@ -415,6 +446,10 @@ type Subject implements Node {
   課題の締め切り日時
   """
   deadline: DateTime!
+  """
+  対象クラス
+  """
+  classRooms: [ClassRoom!]!
 }
 
 """
@@ -485,6 +520,10 @@ input SubjectStateFilter {
   受付状態
   """
   status: SubjectStateStatus
+  """
+  対象クラスのクラス記号
+  """
+  classId: String
 }
 
 """

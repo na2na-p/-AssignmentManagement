@@ -41,6 +41,11 @@ type Subject implements Node {
   課題の締め切り日時
   """
   deadline: DateTime!
+
+  """
+  対象クラス
+  """
+  classRooms: [ClassRoom!]!
 }
 
 """
@@ -144,6 +149,11 @@ input SubjectStateFilter {
   受付状態
   """
   status: SubjectStateStatus
+
+  """
+  対象クラスのクラス記号
+  """
+  classId: String
 }
 
 extend type Query {
