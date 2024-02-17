@@ -13,6 +13,11 @@ type Student implements Node {
   class: ClassRoom!
 
   """
+  担任スタッフの名前
+  """
+  staffName: String!
+
+  """
   学生の名前
   """
   name: String!
@@ -58,6 +63,11 @@ input StudentCreateInput {
   classId: String!
 
   """
+  担任スタッフの名前
+  """
+  staffName: String!
+
+  """
   マネージャーロールがあるかどうか
   """
   hasManagerRole: Boolean!
@@ -86,6 +96,11 @@ input StudentUpdateInput {
   選択したクラス記号
   """
   selectedClassId: String
+
+  """
+  担任スタッフの名前
+  """
+  staffName: String
 
   """
   マネージャーロールがあるかどうか
