@@ -43,8 +43,8 @@ type Subject implements Node {
   deadline: DateTime!
 
   """
-  対象クラス
-	HACK: 選択授業の場合に空が入りうる
+   対象クラス
+  HACK: 選択授業の場合に空が入りうる
   """
   classRooms: [ClassRoom!]
 }
