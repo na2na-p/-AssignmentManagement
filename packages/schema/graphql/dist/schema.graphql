@@ -131,6 +131,19 @@ type Mutation {
   """
   signOut: Boolean
   """
+  パスワード変更
+  """
+  changePassword(
+    """
+    現在のパスワード
+    """
+    currentPassword: Password
+    """
+    新しいパスワード
+    """
+    password: Password!
+  ): AuthResponse!
+  """
   スタッフの登録
   """
   createStaff(
@@ -319,10 +332,6 @@ type Student implements Node {
 学生作成用
 """
 input StudentCreateInput {
-  """
-  パスワード
-  """
-  password: Password!
   """
   学生の名前
   """
@@ -562,6 +571,10 @@ input UserCreateInput {
   メールアドレス
   """
   email: Email!
+  """
+  パスワード
+  """
+  password: Password!
 }
 
 """
