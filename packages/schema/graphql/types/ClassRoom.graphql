@@ -16,4 +16,10 @@ type ClassRoom implements Node {
   担任スタッフ
   """
   staff: Staff
+
+  """
+  担任スタッフの名前
+  NOTE: 課題提出時に当該スタッフが存在しなければ、入力値をここに詰める
+  """
+  staffName: String!
 }
