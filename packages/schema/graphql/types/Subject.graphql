@@ -35,7 +35,7 @@ type Subject implements Node {
   """
   課題を登録したユーザー
   """
-  issuedBy: User!
+  issuer: User!
 
   """
   課題の締め切り日時
