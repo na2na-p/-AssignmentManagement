@@ -1,0 +1,19 @@
+"""
+クラス
+"""
+type ClassRoom implements Node {
+  """
+  UUIDv7 ID
+  """
+  id: ID!
+
+  """
+  クラス記号
+  """
+  classId: String!
+
+  """
+  担任スタッフ
+  """
+  staff: Staff
+}

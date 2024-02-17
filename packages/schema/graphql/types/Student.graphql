@@ -8,9 +8,9 @@ type Student implements Node {
   id: ID!
 
   """
-  担任スタッフ
+  クラス
   """
-  staff: Staff!
+  class: ClassRoom!
 
   """
   学生の名前
@@ -23,14 +23,9 @@ type Student implements Node {
   studentNumber: String!
 
   """
-  クラス記号
-  """
-  classId: String!
-
-  """
   選択したクラス記号
   """
-  selectedClassId: String
+  selectedClassId: [String!]
 
   """
   マネージャーロールがあるかどうか
