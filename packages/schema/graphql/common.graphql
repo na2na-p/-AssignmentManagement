@@ -12,23 +12,3 @@ type Choice implements Node {
   """
   name: String!
 }
-
-"""
-一括更新結果
-"""
-type UpdateManyResult {
-  """
-  一括アップデートしたID
-  """
-  id: ID!
-}
-
-"""
-一括削除結果
-"""
-type DeleteManyResult {
-  """
-  一括削除したID
-  """
-  id: ID!
-}
