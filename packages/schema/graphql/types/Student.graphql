@@ -25,7 +25,7 @@ type Student implements Node {
   """
   選択したクラス記号
   """
-  selectedClassId: [String!]
+  selectedClassIds: [String!]
 
   """
   マネージャーロールがあるかどうか

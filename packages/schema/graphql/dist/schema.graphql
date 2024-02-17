@@ -339,7 +339,7 @@ type Student implements Node {
   """
   選択したクラス記号
   """
-  selectedClassId: [String!]
+  selectedClassIds: [String!]
   """
   マネージャーロールがあるかどうか
   """
@@ -437,7 +437,7 @@ type Subject implements Node {
   """
   対象クラス
   """
-  classRoom: [ClassRoom!]!
+  classRooms: [ClassRoom!]!
 }
 
 """

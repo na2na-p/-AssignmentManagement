@@ -45,7 +45,7 @@ type Subject implements Node {
   """
   対象クラス
   """
-  classRoom: [ClassRoom!]!
+  classRooms: [ClassRoom!]!
 }
 
 """
