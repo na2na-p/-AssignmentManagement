@@ -4,21 +4,6 @@ An ISO-8601 encoded JST datetime string.
 scalar DateTime
 
 """
-An ISO-8601 encoded JST date string.
-"""
-scalar Date
-
-"""
-An ISO-8601 encoded JST time string. e.g. 12:34 at 12:34 JST.
-"""
-scalar Time
-
-"""
-An RFC 3986, RFC 3987, and RFC 6570 (level 4) compliant URI string.
-"""
-scalar URI
-
-"""
 Email Address pattern string (RFC 5322 and 6854).
 https://en.wikipedia.org/wiki/Email_address
 """

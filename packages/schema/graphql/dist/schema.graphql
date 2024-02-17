@@ -13,26 +13,6 @@ type Choice implements Node {
 }
 
 """
-一括更新結果
-"""
-type UpdateManyResult {
-  """
-  一括アップデートしたID
-  """
-  id: ID!
-}
-
-"""
-一括削除結果
-"""
-type DeleteManyResult {
-  """
-  一括削除したID
-  """
-  id: ID!
-}
-
-"""
 ユーザー種別
 """
 enum UserUserableType {
@@ -68,21 +48,6 @@ enum SubjectStateStatus {
 An ISO-8601 encoded JST datetime string.
 """
 scalar DateTime
-
-"""
-An ISO-8601 encoded JST date string.
-"""
-scalar Date
-
-"""
-An ISO-8601 encoded JST time string. e.g. 12:34 at 12:34 JST.
-"""
-scalar Time
-
-"""
-An RFC 3986, RFC 3987, and RFC 6570 (level 4) compliant URI string.
-"""
-scalar URI
 
 """
 Email Address pattern string (RFC 5322 and 6854).
@@ -439,9 +404,9 @@ type Subject implements Node {
   """
   description: String!
   """
-  課題を作成したスタッフ
+  課題を登録したユーザー
   """
-  createdBy: Staff!
+  issuer: User!
   """
   課題の締め切り日時
   """
