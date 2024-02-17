@@ -414,7 +414,7 @@ type Subject implements Node {
   """
   対象クラス
   """
-  classRooms: [ClassRoom!]!
+  classRooms: [ClassRoom!]
 }
 
 """
