@@ -44,8 +44,9 @@ type Subject implements Node {
 
   """
   対象クラス
+	HACK: 選択授業の場合に空が入りうる
   """
-  classRooms: [ClassRoom!]!
+  classRooms: [ClassRoom!]
 }
 
 """
