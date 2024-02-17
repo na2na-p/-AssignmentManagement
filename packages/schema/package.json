@@ -9,7 +9,7 @@
     "lint": "graphql-schema-linter",
     "fmt": "prettier --config ./.prettierrc  --list-different \"graphql/**/*.graphql\"",
     "fmt:fix": "pnpm fmt --write",
-    "build": "node ./schemaMerger.mjs && pnpm fmt:fix"
+    "build": "rm -f ./graphql/dist/* && node ./schemaMerger.mjs && pnpm fmt:fix"
   },
   "devDependencies": {
     "@graphql-tools/load-files": "^7.0.0",

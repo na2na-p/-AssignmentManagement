@@ -1,7 +1,19 @@
+"""
+クエリ
+"""
 type Query {
+  """
+  dummy
+  """
   hello: String
 }
 
+"""
+ミューテーション
+"""
 type Mutation {
+  """
+  dummy
+  """
   hello: String
 }

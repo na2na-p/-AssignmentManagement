@@ -12,6 +12,9 @@ type Choice implements Node {
   name: String!
 }
 
+"""
+一括更新結果
+"""
 type UpdateManyResult {
   """
   一括アップデートしたID
@@ -19,6 +22,9 @@ type UpdateManyResult {
   id: ID!
 }
 
+"""
+一括削除結果
+"""
 type DeleteManyResult {
   """
   一括削除したID
@@ -26,9 +32,36 @@ type DeleteManyResult {
   id: ID!
 }
 
+"""
+ユーザー種別
+"""
 enum UserUserableType {
+  """
+  学生
+  """
   USER_USERABLE_TYPE_STUDENT
+  """
+  教員
+  """
   USER_USERABLE_TYPE_STAFF
+}
+
+"""
+課題の受付状況
+"""
+enum SubjectStateStatus {
+  """
+  受付中
+  """
+  SUBJECT_STATE_STATUS_OPEN
+  """
+  締め切り
+  """
+  SUBJECT_STATE_STATUS_CLOSE
+  """
+  一時停止中
+  """
+  SUBJECT_STATE_STATUS_SUSPEND
 }
 
 """
@@ -62,12 +95,144 @@ Password
 """
 scalar Password
 
+"""
+クエリ
+"""
 type Query {
+  """
+  dummy
+  """
   hello: String
+  """
+  課題の取得
+  """
+  subject(
+    """
+    UUIDv7 ID
+    """
+    id: ID!
+  ): Subject!
+  """
+  課題の複数取得
+  """
+  allSubjects(
+    """
+    ページ番号
+    """
+    page: Int
+    """
+    1ページあたりの表示数
+    """
+    perPage: Int
+    """
+    ソートフィールド
+    """
+    sortField: String
+    """
+    ソート順
+    """
+    sortOrder: String
+    filter: SubjectStateFilter
+  ): [Subject!]!
+  """
+  現在ログインしているユーザーの情報を取得します。
+  """
+  Viewer: Viewer!
 }
 
+"""
+ミューテーション
+"""
 type Mutation {
+  """
+  dummy
+  """
   hello: String
+  """
+  サインイン
+  """
+  signIn(
+    """
+    メールアドレス
+    """
+    email: Email!
+    """
+    パスワード
+    """
+    password: String!
+  ): AuthResponse!
+  """
+  サインアウト
+  """
+  signOut: Boolean
+  """
+  スタッフの登録
+  """
+  createStaff(
+    """
+    ユーザ情報
+    """
+    user: UserCreateInput!
+    """
+    スタッフ情報
+    """
+    staff: StaffCreateInput!
+  ): Staff!
+  """
+  スタッフ情報の更新
+  """
+  updateStaff(
+    id: ID!
+    """
+    スタッフ情報
+    """
+    staff: StaffUpdateInput!
+  ): Staff!
+  """
+  学生の登録
+  """
+  createStudent(
+    """
+    ユーザ情報
+    """
+    user: UserCreateInput!
+    """
+    学生情報
+    """
+    student: StudentCreateInput!
+  ): User
+  """
+  学生情報の更新
+  """
+  updateStudent(id: ID!, student: StudentUpdateInput!): Student
+  """
+  課題の登録
+  """
+  createSubject(
+    """
+    課題情報
+    """
+    subject: SubjectCreateInput!
+  ): Subject!
+  """
+  課題情報の更新
+  """
+  updateSubject(
+    id: ID!
+    """
+    課題情報
+    """
+    subject: SubjectUpdateInput!
+  ): Subject!
+  """
+  提出物の登録
+  """
+  createSubmission(
+    """
+    提出物情報
+    """
+    submission: SubmissionCreateInput!
+  ): Submission!
 }
 
 """
@@ -78,6 +243,20 @@ interface Node {
   ID
   """
   id: ID!
+}
+
+"""
+認証レスポンス
+"""
+type AuthResponse {
+  """
+  JWTトークン
+  """
+  token: String!
+  """
+  ユーザー
+  """
+  user: User!
 }
 
 """
@@ -92,6 +271,26 @@ type Staff implements Node {
   スタッフの名前
   """
   name: String!
+}
+
+"""
+スタッフ作成用
+"""
+input StaffCreateInput {
+  """
+  スタッフの名前
+  """
+  name: String!
+}
+
+"""
+スタッフ更新用
+"""
+input StaffUpdateInput {
+  """
+  スタッフの名前
+  """
+  name: String
 }
 
 """
@@ -129,6 +328,58 @@ type Student implements Node {
 }
 
 """
+学生作成用
+"""
+input StudentCreateInput {
+  """
+  パスワード
+  """
+  password: Password!
+  """
+  学生の名前
+  """
+  name: String!
+  """
+  学籍番号
+  """
+  studentNumber: String!
+  """
+  クラス記号
+  """
+  classId: String!
+  """
+  マネージャーロールがあるかどうか
+  """
+  hasManagerRole: Boolean!
+}
+
+"""
+学生更新用
+"""
+input StudentUpdateInput {
+  """
+  学生の名前
+  """
+  name: String
+  """
+  学籍番号
+  """
+  studentNumber: String
+  """
+  クラス記号
+  """
+  classId: String
+  """
+  選択したクラス記号
+  """
+  selectedClassId: String
+  """
+  マネージャーロールがあるかどうか
+  """
+  hasManagerRole: Boolean
+}
+
+"""
 課題
 """
 type Subject implements Node {
@@ -149,6 +400,10 @@ type Subject implements Node {
   """
   code: String!
   """
+  受付状態
+  """
+  status: SubjectStateStatus!
+  """
   課題の説明
   """
   description: String!
@@ -160,6 +415,76 @@ type Subject implements Node {
   課題の締め切り日時
   """
   deadline: DateTime!
+}
+
+"""
+課題作成用
+"""
+input SubjectCreateInput {
+  """
+  課題No.
+  """
+  number: Int!
+  """
+  課題主題
+  """
+  title: String!
+  """
+  科目記号
+  """
+  code: String!
+  """
+  受付状態
+  """
+  status: SubjectStateStatus!
+  """
+  課題の説明
+  """
+  description: String!
+  """
+  課題の締め切り日時
+  """
+  deadline: DateTime!
+}
+
+"""
+課題更新用
+"""
+input SubjectUpdateInput {
+  """
+  課題No.
+  """
+  number: Int
+  """
+  課題主題
+  """
+  title: String
+  """
+  科目記号
+  """
+  code: String
+  """
+  受付状態
+  """
+  status: SubjectStateStatus
+  """
+  課題の説明
+  """
+  description: String
+  """
+  課題の締め切り日時
+  """
+  deadline: DateTime
+}
+
+"""
+課題複数取得用フィルタ
+"""
+input SubjectStateFilter {
+  """
+  受付状態
+  """
+  status: SubjectStateStatus
 }
 
 """
@@ -182,10 +507,20 @@ type Submission implements Node {
   提出日時
   """
   submittedAt: DateTime!
+}
+
+"""
+課題提出用
+"""
+input SubmissionCreateInput {
   """
-  提出内容
+  課題
   """
-  content: String!
+  subject: ID!
+  """
+  学生
+  """
+  studentId: ID!
 }
 
 """
@@ -214,9 +549,14 @@ type User implements Node {
   staff: Staff
 }
 
-schema {
-  query: Query
-  mutation: Mutation
+"""
+ユーザ作成用
+"""
+input UserCreateInput {
+  """
+  メールアドレス
+  """
+  email: Email!
 }
 
 """
@@ -226,9 +566,14 @@ type Viewer {
   """
   ユーザー
   """
-  me: User!
+  me: User
   """
   抱えている課題
   """
   assignedSubjects: [Subject!]
+}
+
+schema {
+  query: Query
+  mutation: Mutation
 }

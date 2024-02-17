@@ -12,3 +12,50 @@ type Staff implements Node {
   """
   name: String!
 }
+
+"""
+スタッフ作成用
+"""
+input StaffCreateInput {
+  """
+  スタッフの名前
+  """
+  name: String!
+}
+
+"""
+スタッフ更新用
+"""
+input StaffUpdateInput {
+  """
+  スタッフの名前
+  """
+  name: String
+}
+
+extend type Mutation {
+  """
+  スタッフの登録
+  """
+  createStaff(
+    """
+    ユーザ情報
+    """
+    user: UserCreateInput!
+    """
+    スタッフ情報
+    """
+    staff: StaffCreateInput!
+  ): Staff!
+
+  """
+  スタッフ情報の更新
+  """
+  updateStaff(
+    id: ID!
+    """
+    スタッフ情報
+    """
+    staff: StaffUpdateInput!
+  ): Staff!
+}

@@ -27,3 +27,13 @@ type User implements Node {
   """
   staff: Staff
 }
+
+"""
+ユーザ作成用
+"""
+input UserCreateInput {
+  """
+  メールアドレス
+  """
+  email: Email!
+}
