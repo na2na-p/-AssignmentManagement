@@ -33,9 +33,9 @@ type Subject implements Node {
   description: String!
 
   """
-  課題を作成したスタッフ
+  課題を登録したユーザー
   """
-  createdBy: Staff!
+  issuedBy: User!
 
   """
   課題の締め切り日時
