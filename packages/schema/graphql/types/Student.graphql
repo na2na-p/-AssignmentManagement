@@ -10,7 +10,7 @@ type Student implements Node {
   """
   クラス
   """
-  class: ClassRoom!
+  classRoom: ClassRoom!
 
   """
   担任スタッフの名前
