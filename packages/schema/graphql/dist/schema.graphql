@@ -118,13 +118,9 @@ type Mutation {
   """
   signIn(
     """
-    メールアドレス
+    サインイン情報
     """
-    email: Email!
-    """
-    パスワード
-    """
-    password: String!
+    SignInInput: SignInInput!
   ): AuthResponse!
   """
   サインアウト
@@ -135,13 +131,9 @@ type Mutation {
   """
   changePassword(
     """
-    現在のパスワード
+    パスワード変更情報
     """
-    currentPassword: Password!
-    """
-    新しいパスワード
-    """
-    password: Password!
+    ChangePasswordInput: ChangePasswordInput!
   ): AuthResponse!
   """
   スタッフの登録
@@ -235,6 +227,34 @@ type AuthResponse {
   ユーザー
   """
   user: User!
+}
+
+"""
+サインイン用
+"""
+input SignInInput {
+  """
+  メールアドレス
+  """
+  email: Email!
+  """
+  パスワード
+  """
+  password: String!
+}
+
+"""
+パスワード更新用
+"""
+input ChangePasswordInput {
+  """
+  現在のパスワード
+  """
+  currentPassword: Password!
+  """
+  新しいパスワード
+  """
+  password: Password!
 }
 
 """
