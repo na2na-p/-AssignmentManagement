@@ -36,4 +36,9 @@ input UserCreateInput {
   メールアドレス
   """
   email: Email!
+
+  """
+  パスワード
+  """
+  password: Password!
 }

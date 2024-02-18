@@ -31,4 +31,18 @@ extend type Mutation {
   サインアウト
   """
   signOut: Boolean
+
+  """
+  パスワード変更
+  """
+  changePassword(
+    """
+    現在のパスワード
+    """
+    currentPassword: Password
+    """
+    新しいパスワード
+    """
+    password: Password!
+  ): AuthResponse!
 }

@@ -43,11 +43,6 @@ type Student implements Node {
 """
 input StudentCreateInput {
   """
-  パスワード
-  """
-  password: Password!
-
-  """
   学生の名前
   """
   name: String!
