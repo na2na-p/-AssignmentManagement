@@ -1,168 +1,83 @@
 ```mermaid
 erDiagram
 
-        PostScope {
-            PUBLIC PUBLIC
-HOME HOME
-FOLLOWERS_ONLY FOLLOWERS_ONLY
+        UserUserableType {
+            USER_USERABLE_TYPE_STUDENT USER_USERABLE_TYPE_STUDENT
+USER_USERABLE_TYPE_STAFF USER_USERABLE_TYPE_STAFF
         }
     
 
 
-        BaseRoleType {
-            ADMIN ADMIN
-MODERATOR MODERATOR
-USER USER
-BOT BOT
-        }
-    
-
-
-        TimelineType {
-            HOME_TIMELINE HOME_TIMELINE
-LOCAL_TIMELINE LOCAL_TIMELINE
-GLOBAL_TIMELINE GLOBAL_TIMELINE
-ANTENNA_TIMELINE ANTENNA_TIMELINE
-        }
-    
-
-
-        JobQueueType {
-            INBOX INBOX
-DELIVER DELIVER
-        }
-    
-
-
-        MediumExtensionType {
-            PNG PNG
-JPEG JPEG
-JPG JPG
-GIF GIF
-MP4 MP4
-MP3 MP3
-WEBM WEBM
-WEBP WEBP
-WMV WMV
-AVI AVI
-MOV MOV
-MKV MKV
-FLV FLV
-SWF SWF
-OGG OGG
-UNKNOWN UNKNOWN
+        SubjectStateStatus {
+            SUBJECT_STATE_STATUS_OPEN SUBJECT_STATE_STATUS_OPEN
+SUBJECT_STATE_STATUS_CLOSE SUBJECT_STATE_STATUS_CLOSE
+SUBJECT_STATE_STATUS_SUSPEND SUBJECT_STATE_STATUS_SUSPEND
         }
     
   "User" {
     String id "🗝️"
+    String email 
+    String password_digest 
+    UserUserableType userable_type 
+    }
+  
+
+  "Student" {
+    String id "🗝️"
     String userId 
-    String email "❓"
-    String name "❓"
-    String introduction "❓"
-    String password 
-    DateTime createdAt 
-    DateTime deletedAt "❓"
-    }
-  
-
-  "Follow" {
-    String id "🗝️"
-    DateTime followedAt 
-    }
-  
-
-  "Drop" {
-    String id "🗝️"
-    PostScope scope 
-    String cw "❓"
-    String body 
-    DateTime expiresAt "❓"
-    DateTime createdAt 
-    }
-  
-
-  "Antenna" {
-    String id "🗝️"
     String name 
-    String description "❓"
-    String condifition 
-    String exclusions 
-    DateTime createdAt 
+    String student_number 
+    String selectedClassIds 
+    Boolean hasManagerRole 
     }
   
 
-  "Role" {
+  "Staff" {
     String id "🗝️"
-    String name 
-    String description "❓"
-    BaseRoleType baseType 
-    }
-  
-
-  "Terminal" {
-    String id "🗝️"
-    String name 
-    DateTime firstSeen 
-    DateTime updatedAt 
-    Int userCount 
-    Int dropCount 
-    Boolean isRegistrationOpen 
-    }
-  
-
-  "Reaction" {
-    String id "🗝️"
+    String userId 
     String name 
     }
   
 
-  "Emoji" {
+  "ClassRoom" {
     String id "🗝️"
-    String name 
-    DateTime createdAt 
+    String classId 
+    String staffName "❓"
     }
   
 
-  "EmojiCategory" {
+  "Subject" {
     String id "🗝️"
+    Int number 
+    String title 
+    String code 
+    SubjectStateStatus status 
     String name 
+    DateTime deadline 
     }
   
 
-  "Medium" {
+  "Submission" {
     String id "🗝️"
-    String url 
-    Boolean isNsfw 
-    MediumExtensionType type 
+    DateTime submitted_at 
     }
   
-    "User" o|--|| "Terminal" : "Terminal"
-    "User" o|--|o "Medium" : "Medium"
-    "User" o{--}o "Role" : "assignedRoles"
-    "User" o{--}o "Drop" : "Drop"
-    "User" o{--}o "Follow" : "Followee"
-    "User" o{--}o "Follow" : "Follower"
-    "User" o{--}o "Antenna" : "Antenna"
-    "Follow" o|--|| "User" : "followee"
-    "Follow" o|--|| "User" : "follower"
-    "Drop" o|--|| "PostScope" : "enum:scope"
-    "Drop" o{--}o "Medium" : "medium"
-    "Drop" o{--}o "Reaction" : "reactions"
-    "Drop" o|--|| "User" : "User"
-    "Antenna" o|--|| "User" : "User"
-    "Role" o|--|| "BaseRoleType" : "enum:baseType"
-    "Role" o{--}o "User" : "users"
-    "Terminal" o{--}o "User" : "User"
-    "Terminal" o{--}o "Emoji" : "Emoji"
-    "Terminal" o{--}o "Medium" : "Medium"
-    "Reaction" o|--|o "Drop" : "Drop"
-    "Emoji" o{--}o "EmojiCategory" : "categories"
-    "Emoji" o|--|| "Medium" : "Medium"
-    "Emoji" o|--|| "Terminal" : "Terminal"
-    "EmojiCategory" o{--}o "Emoji" : "Emoji"
-    "Medium" o{--}o "User" : "users"
-    "Medium" o|--|| "MediumExtensionType" : "enum:type"
-    "Medium" o{--}o "Emoji" : "Emoji"
-    "Medium" o|--|| "Terminal" : "Terminal"
-    "Medium" o|--|o "Drop" : "Drop"
+    "User" o|--|| "UserUserableType" : "enum:userable_type"
+    "User" o|--|o "Student" : "Student"
+    "User" o|--|o "Staff" : "Staff"
+    "User" o{--}o "Subject" : "Subject"
+    "Student" o|--|o "ClassRoom" : "ClassRoom"
+    "Student" o{--}o "Submission" : "Submissions"
+    "Student" o{--}o "User" : "User"
+    "Staff" o{--}o "Subject" : "Subjects"
+    "Staff" o{--}o "ClassRoom" : "ClassRoom"
+    "Staff" o{--}o "User" : "User"
+    "ClassRoom" o|--|| "Staff" : "Staff"
+    "ClassRoom" o{--}o "Student" : "Student"
+    "Subject" o|--|| "SubjectStateStatus" : "enum:status"
+    "Subject" o|--|| "User" : "User"
+    "Subject" o{--}o "Submission" : "Submission"
+    "Subject" o|--|o "Staff" : "Staff"
+    "Submission" o|--|| "Student" : "Student"
+    "Submission" o|--|| "Subject" : "Subject"
 ```

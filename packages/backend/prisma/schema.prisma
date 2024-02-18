@@ -1,174 +1,96 @@
 generator erd {
-  provider = "prisma-erd-generator"
-  output   = "./erd.md"
+	provider = "prisma-erd-generator"
+	output   = "./erd.md"
 }
 
 generator client {
-  provider = "prisma-client-js"
+	provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+	provider = "postgresql"
+	url      = env("DATABASE_URL")
+}
+
+enum UserUserableType {
+	/// 学生
+	USER_USERABLE_TYPE_STUDENT
+	/// スタッフ
+	USER_USERABLE_TYPE_STAFF
+}
+
+enum SubjectStateStatus {
+	/// 受付中
+	SUBJECT_STATE_STATUS_OPEN
+	/// 締め切り
+	SUBJECT_STATE_STATUS_CLOSE
+	/// 一時停止中
+	SUBJECT_STATE_STATUS_SUSPEND
 }
 
 model User {
-  id            String    @id
-  userId        String    @unique
-  email         String?   @unique
-  name          String?
-  introduction  String?
-  password      String
-  createdAt     DateTime  @default(now())
-  deletedAt     DateTime?
-  Terminal      Terminal  @relation(fields: [terminalId], references: [id])
-  terminalId    String
-  Medium        Medium?   @relation(fields: [iconId], references: [id])
-  iconId        String?
-  assignedRoles Role[]
-  Drop          Drop[]
-  Followee      Follow[]  @relation("followee")
-  Follower      Follow[]  @relation("follower")
-  Antenna       Antenna[]
+	id              String           @id
+	email           String           @unique
+	password_digest String
+	userable_type   UserUserableType
+	studentId       String?
+	staffId         String?
+	Student         Student?         @relation(fields: [studentId], references: [id])
+	Staff           Staff?           @relation(fields: [staffId], references: [id])
+	Subject         Subject[]
 }
 
-model Follow {
-  id         String   @id
-  followeeId String
-  followerId String
-  followedAt DateTime @default(now())
-  followee   User     @relation("followee", fields: [followeeId], references: [id])
-  follower   User     @relation("follower", fields: [followerId], references: [id])
+model Student {
+	id               String       @id
+	userId           String
+	name             String
+	student_number   String
+	classRoomId      String?
+	selectedClassIds String[]
+	hasManagerRole   Boolean
+	ClassRoom        ClassRoom?   @relation(fields: [classRoomId], references: [id])
+	Submissions      Submission[]
+	User             User[]
 }
 
-model Drop {
-  id        String     @id
-  userId    String
-  scope     PostScope
-  cw        String?
-  body      String
-  expiresAt DateTime?
-  createdAt DateTime   @default(now())
-  medium    Medium[]
-  reactions Reaction[]
-  User      User       @relation(fields: [userId], references: [id])
+model Staff {
+	id        String      @id
+	userId    String
+	name      String
+	Subjects  Subject[]
+	ClassRoom ClassRoom[]
+	User      User[]
 }
 
-model Antenna {
-  id              String   @id
-  name            String
-  description     String?
-  condifition     String[]
-  exclusions      String[]
-  createdByUserId String
-  createdAt       DateTime @default(now())
-  User            User     @relation(fields: [createdByUserId], references: [id])
+model ClassRoom {
+	id        String    @id
+	classId   String
+	staffId   String
+	Staff     Staff     @relation(fields: [staffId], references: [id])
+	staffName String?
+	Student   Student[]
 }
 
-model Role {
-  id          String       @id
-  name        String       @unique
-  description String?
-  baseType    BaseRoleType
-  users       User[]
+model Subject {
+	id         String             @id
+	number     Int
+	title      String
+	code       String
+	status     SubjectStateStatus
+	issuerId   String
+	name       String
+	deadline   DateTime
+	User       User               @relation(fields: [issuerId], references: [id])
+	Submission Submission[]
+	Staff      Staff?             @relation(fields: [staffId], references: [id])
+	staffId    String?
 }
 
-model Terminal {
-  id                 String   @id
-  name               String
-  firstSeen          DateTime @default(now())
-  updatedAt          DateTime @default(now())
-  /// 自インスタンスから観測されているユーザ数
-  userCount          Int
-  /// 自インスタンスから観測されている投稿数
-  dropCount          Int
-  isRegistrationOpen Boolean
-  User               User[]
-  Emoji              Emoji[]
-  Medium             Medium[]
-}
-
-/// ユーザのつけたリアクションを表すエンティティ
-model Reaction {
-  id     String  @id
-  name   String  @unique
-  Drop   Drop?   @relation(fields: [dropId], references: [id])
-  dropId String?
-}
-
-/// ユーザの利用できる絵文字を表すエンティティ
-model Emoji {
-  id         String          @id
-  /// ユーザが利用時に指定する一意な名前
-  name       String          @unique
-  createdAt  DateTime        @default(now())
-  /// メディアキャッシュも考えてEmojiエンティティでも保存する
-  terminalId String
-  mediumId   String
-  categories EmojiCategory[]
-  Medium     Medium          @relation(fields: [mediumId], references: [id])
-  Terminal   Terminal        @relation(fields: [terminalId], references: [id])
-}
-
-model EmojiCategory {
-  id    String  @id
-  name  String
-  Emoji Emoji[]
-}
-
-model Medium {
-  id         String              @id
-  terminalId String
-  url        String
-  isNsfw     Boolean
-  users      User[]
-  dropId     String?
-  type       MediumExtensionType
-  Emoji      Emoji[]
-  Terminal   Terminal            @relation(fields: [terminalId], references: [id])
-  Drop       Drop?               @relation(fields: [dropId], references: [id])
-}
-
-enum PostScope {
-  PUBLIC
-  HOME
-  FOLLOWERS_ONLY
-}
-
-enum BaseRoleType {
-  ADMIN
-  MODERATOR
-  USER
-  BOT
-}
-
-enum TimelineType {
-  HOME_TIMELINE
-  LOCAL_TIMELINE
-  GLOBAL_TIMELINE
-  ANTENNA_TIMELINE
-}
-
-enum JobQueueType {
-  INBOX
-  DELIVER
-}
-
-enum MediumExtensionType {
-  PNG
-  JPEG
-  JPG
-  GIF
-  MP4
-  MP3
-  WEBM
-  WEBP
-  WMV
-  AVI
-  MOV
-  MKV
-  FLV
-  SWF
-  OGG
-  UNKNOWN
+model Submission {
+	id           String   @id
+	submitted_at DateTime
+	studentId    String
+	subjectId    String
+	Student      Student  @relation(fields: [studentId], references: [id])
+	Subject      Subject  @relation(fields: [subjectId], references: [id])
 }
