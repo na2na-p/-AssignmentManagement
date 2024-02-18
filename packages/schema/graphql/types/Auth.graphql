@@ -39,7 +39,7 @@ extend type Mutation {
     """
     現在のパスワード
     """
-    currentPassword: Password
+    currentPassword: Password!
     """
     新しいパスワード
     """
