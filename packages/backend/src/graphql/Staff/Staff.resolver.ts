@@ -1,28 +1,36 @@
+import { UserService } from '@graphql/User/User.service';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
-import type { Staff } from '@/generated/types';
-import { StaffCreateInput, UserCreateInput } from '@/generated/types';
+import type { User } from '@/generated/types';
+import { Staff, StaffCreateInput, UserCreateInput } from '@/generated/types';
 import { uuidv7 } from '@/utils/uuidv7';
 
 import { StaffService } from './Staff.service';
 
 @Resolver('Staff')
 export class StaffResolver {
-  constructor(private staffService: StaffService) {}
+  constructor(
+    private staffService: StaffService,
+    private userService: UserService
+  ) {}
 
   @Mutation('createStaff')
   async createStaff(
     @Args('user') user: UserCreateInput,
     @Args('staff') staff: StaffCreateInput
-  ): Promise<Staff> {
+  ): Promise<User> {
     const staffId = uuidv7();
     const userId = uuidv7();
-    const createdStaff = await this.staffService.createStaff({
+    void (await this.staffService.createStaff({
       staffId,
       userId,
       staffCreateInput: staff,
       userCreateInput: user,
-    });
-    return createdStaff;
+    }));
+    const createdUser = await this.userService.findById(userId);
+    if (!createdUser) {
+      throw new Error('User not found');
+    }
+    return createdUser;
   }
 }
