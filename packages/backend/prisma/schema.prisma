@@ -67,7 +67,7 @@ model classRoom {
   classId   String
   staffId   String
   staff     staff     @relation(fields: [staffId], references: [id])
-  staffName String?
+  staffName String
   student   student[]
 }
 

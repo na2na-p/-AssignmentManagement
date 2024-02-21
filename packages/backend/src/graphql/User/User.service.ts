@@ -4,15 +4,21 @@ import type { User } from '@/generated/types';
 import { UserUserableType } from '@/generated/types';
 import { PrismaService } from '@/prisma/prisma.service';
 
+import { ClassRoomService } from '../ClassRoom/ClassRoom.service';
+import { StaffService } from '../Staff/Staff.service';
+import { StudentService } from '../Student/Student.service';
+
 @Injectable()
 export class UserService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private staffService: StaffService,
+    private studentService: StudentService,
+    private classRoomService: ClassRoomService
+  ) {}
 
   async findById(id: string): Promise<User | undefined> {
-    // const user = await this.prismaService.user.findFirstOrThrow({
-    //   where: { id },
-    // });
-    // 紐づいている、studentかstaffの情報も取得する
+    // TODO: クエリ見直し
     const user = await this.prismaService.user.findFirst({
       where: { id },
       include: {
@@ -26,30 +32,28 @@ export class UserService {
 
     switch (user.userableType) {
       case UserUserableType.USER_USERABLE_TYPE_STUDENT:
+        if (!user.student) {
+          throw new Error('Student not found');
+        }
+        const student = await this.studentService.findById(user.student.id);
+
         return {
           id: user.id,
           email: user.email,
           userableType: UserUserableType.USER_USERABLE_TYPE_STUDENT,
-          student: {
-            id: user.student!.id,
-            // TODO: なおす
-            classRoom: null as any,
-            staffName: null as any,
-            hasManagerRole: user.student!.hasManagerRole,
-            name: user.student!.name,
-            studentNumber: user.student!.studentNumber,
-          },
+          student,
         };
 
       case UserUserableType.USER_USERABLE_TYPE_STAFF:
+        if (!user.staff) {
+          throw new Error('Staff not found');
+        }
+        const staff = await this.staffService.findById(user.staff.id);
         return {
           id: user.id,
           email: user.email,
           userableType: UserUserableType.USER_USERABLE_TYPE_STAFF,
-          staff: {
-            id: user.staff!.id,
-            name: user.staff!.name,
-          },
+          staff,
         };
     }
   }

@@ -14,7 +14,7 @@ export class StaffService {
   constructor(private prismaService: PrismaService) {}
 
   async findById(id: string): Promise<Staff | null> {
-    return this.prismaService.staff.findUnique({
+    return this.prismaService.staff.findFirstOrThrow({
       where: { id },
     });
   }
