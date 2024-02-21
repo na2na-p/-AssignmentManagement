@@ -30,20 +30,16 @@ export class AuthService {
     email,
     password,
   }: SignInInput): Promise<{ access_token: string; userId: string }> {
-    // const user = await this.validateUser(email, password);
-    // if (!user) {
-    //   throw new UnauthorizedException();
-    // }
-    // const payload = {
-    //   username: user.staffId ? user.staffId : user.studentId ?? '',
-    //   sub: user.id,
-    // } satisfies JwtPayload;
+    const user = await this.validateUser(email, password);
+    if (!user) {
+      throw new UnauthorizedException();
+    }
     const payload = {
-      username: '生徒太郎',
-      sub: 'ff63bc6e-1f9f-4a4c-99a2-f8003130b52b',
+      username: user.staffId ? user.staffId : user.studentId ?? '',
+      sub: user.id,
     } satisfies JwtPayload;
     return {
-      userId: 'ff63bc6e-1f9f-4a4c-99a2-f8003130b52b',
+      userId: user.id,
       access_token: this.jwtService.sign(payload),
     };
   }
@@ -54,7 +50,7 @@ export class AuthService {
     });
   }
 
-  private async getPasswordDigest({
+  private async createPasswordDigest({
     password,
   }: {
     password: string;
@@ -73,13 +69,17 @@ export class AuthService {
   ): Promise<Pick<User, 'id' | 'studentId' | 'staffId'>> {
     const user = await this.findUser(email);
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(
+        '認証に失敗しました。メールアドレスまたはパスワードが正しくありません'
+      );
     }
 
     const isMatch = await bcrypt.compare(password, user.password_digest);
 
     if (isMatch) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(
+        '認証に失敗しました。メールアドレスまたはパスワードが正しくありません'
+      );
     }
 
     return {

@@ -24,7 +24,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "graphql-build": "cd ../schema && pnpm build ",
     "graphql-codegen": "pnpm graphql-build && tsx ./scripts/generate-typings.ts",
-    "postinstall": "pnpm graphql-codegen",
+    "postinstall": "pnpm prisma generate && pnpm graphql-codegen",
     "type-check": "pnpm tsc --noEmit"
   },
   "dependencies": {

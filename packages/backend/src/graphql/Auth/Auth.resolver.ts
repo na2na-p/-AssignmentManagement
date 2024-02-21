@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
 import type { AuthResponse } from '@/generated/types';
@@ -26,10 +26,8 @@ export class AuthResolver {
     });
     const user = await this.userService.findById(userId);
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new UnauthorizedException();
     }
-    console.log('user', user);
-    console.log('access_token', access_token);
     return {
       user,
       token: access_token,
