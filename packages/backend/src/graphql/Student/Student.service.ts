@@ -1,7 +1,15 @@
 import { Injectable } from '@nestjs/common';
 
-import type { Student } from '@/generated/types';
+import { UserUserableType } from '@/generated/types';
+import type {
+  Student,
+  StudentCreateInput,
+  UserCreateInput,
+} from '@/generated/types';
 import { PrismaService } from '@/prisma/prisma.service';
+import { createPasswordDigest } from '@/utils/createPasswordDigest';
+
+const DEFAULT_STUDENT_MANAGER_ROLE = false;
 
 @Injectable()
 export class StudentService {
@@ -28,6 +36,64 @@ export class StudentService {
       studentNumber: student.studentNumber,
       selectedClassIds: student.selectedClassIds,
       hasManagerRole: student.hasManagerRole,
+    };
+  }
+
+  async createStudent({
+    studentId,
+    userId,
+    studentCreateInput,
+    userCreateInput,
+  }: {
+    studentId: string;
+    userId: string;
+    studentCreateInput: StudentCreateInput;
+    userCreateInput: UserCreateInput;
+  }): Promise<Student> {
+    const passwordDigest = await createPasswordDigest({
+      password: userCreateInput.password,
+    });
+
+    const results = await this.prismaService.$transaction(async prisma => {
+      const isUserExists = await prisma.user.findUnique({
+        where: { email: userCreateInput.email },
+      });
+      if (isUserExists) {
+        throw new Error('User already exists');
+      }
+
+      const student = await prisma.student.create({
+        data: {
+          id: studentId,
+          name: studentCreateInput.name,
+          userId,
+          studentNumber: studentCreateInput.studentNumber,
+          staffName: studentCreateInput.staffName,
+          hasManagerRole:
+            studentCreateInput.hasManagerRole ?? DEFAULT_STUDENT_MANAGER_ROLE,
+        },
+      });
+
+      const user = await prisma.user.create({
+        data: {
+          id: userId,
+          email: userCreateInput.email,
+          userableType: UserUserableType.USER_USERABLE_TYPE_STAFF,
+          passwordDigest,
+          studentId,
+        },
+      });
+
+      if (!user) {
+        throw new Error('User create failed');
+      }
+
+      return student;
+    });
+    return {
+      ...results,
+      // TODO: classRoomの作成戦略見直す
+      classRoom: [] as unknown as Student['classRoom'],
     };
   }
 }
