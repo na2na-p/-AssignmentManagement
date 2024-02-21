@@ -64,8 +64,9 @@ input StudentCreateInput {
 
   """
   マネージャーロールがあるかどうか
+  デフォルト: false
   """
-  hasManagerRole: Boolean!
+  hasManagerRole: Boolean
 }
 
 """
@@ -99,6 +100,7 @@ input StudentUpdateInput {
 
   """
   マネージャーロールがあるかどうか
+  デフォルト: false
   """
   hasManagerRole: Boolean
 }
