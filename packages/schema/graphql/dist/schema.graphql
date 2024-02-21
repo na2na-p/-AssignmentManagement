@@ -327,6 +327,10 @@ type Student implements Node {
   """
   classRoom: ClassRoom!
   """
+  出席番号
+  """
+  attendanceNumber: Int!
+  """
   担任スタッフの名前
   """
   staffName: String!
@@ -361,6 +365,10 @@ input StudentCreateInput {
   """
   studentNumber: String!
   """
+  出席番号
+  """
+  attendanceNumber: Int!
+  """
   クラス記号
   """
   classId: String!
@@ -387,6 +395,10 @@ input StudentUpdateInput {
   学籍番号
   """
   studentNumber: String
+  """
+  出席番号
+  """
+  attendanceNumber: Int
   """
   クラス記号
   """

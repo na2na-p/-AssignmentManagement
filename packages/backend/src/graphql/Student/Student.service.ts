@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
-import { UserUserableType } from '@/generated/types';
 import type {
   Student,
   StudentCreateInput,
   UserCreateInput,
 } from '@/generated/types';
+import { UserUserableType } from '@/generated/types';
 import { PrismaService } from '@/prisma/prisma.service';
 import { createPasswordDigest } from '@/utils/createPasswordDigest';
 
@@ -20,20 +20,22 @@ export class StudentService {
       where: { id },
     });
 
-    if (!student.classRoomId) {
-      throw new Error('ClassRoom not found');
-    }
-
-    const classRoom = await this.prismaService.classRoom.findFirstOrThrow({
-      where: { id: student.classRoomId },
-    });
+    // TODO: ClassRoom実装後にもどす
+    // if (!student.classRoomId) {
+    //   throw new Error('ClassRoom not found');
+    // }
+    //
+    // const classRoom = await this.prismaService.classRoom.findFirstOrThrow({
+    //   where: { id: student.classRoomId },
+    // });
 
     return {
       id: student.id,
       name: student.name,
-      classRoom,
-      staffName: classRoom.staffName,
+      classRoom: [] as unknown as Student['classRoom'],
+      staffName: student.staffName,
       studentNumber: student.studentNumber,
+      attendanceNumber: student.attendanceNumber,
       selectedClassIds: student.selectedClassIds,
       hasManagerRole: student.hasManagerRole,
     };
@@ -68,6 +70,7 @@ export class StudentService {
           name: studentCreateInput.name,
           userId,
           studentNumber: studentCreateInput.studentNumber,
+          attendanceNumber: studentCreateInput.attendanceNumber,
           staffName: studentCreateInput.staffName,
           hasManagerRole:
             studentCreateInput.hasManagerRole ?? DEFAULT_STUDENT_MANAGER_ROLE,
@@ -78,7 +81,7 @@ export class StudentService {
         data: {
           id: userId,
           email: userCreateInput.email,
-          userableType: UserUserableType.USER_USERABLE_TYPE_STAFF,
+          userableType: UserUserableType.USER_USERABLE_TYPE_STUDENT,
           passwordDigest,
           studentId,
         },
