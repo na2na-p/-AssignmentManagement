@@ -14,39 +14,39 @@ SUBJECT_STATE_STATUS_CLOSE SUBJECT_STATE_STATUS_CLOSE
 SUBJECT_STATE_STATUS_SUSPEND SUBJECT_STATE_STATUS_SUSPEND
         }
     
-  "User" {
+  "user" {
     String id "🗝️"
     String email 
-    String password_digest 
-    UserUserableType userable_type 
+    String passwordDigest 
+    UserUserableType userableType 
     }
   
 
-  "Student" {
+  "student" {
     String id "🗝️"
     String userId 
     String name 
-    String student_number 
+    String studentNumber 
     String selectedClassIds 
     Boolean hasManagerRole 
     }
   
 
-  "Staff" {
+  "staff" {
     String id "🗝️"
     String userId 
     String name 
     }
   
 
-  "ClassRoom" {
+  "classRoom" {
     String id "🗝️"
     String classId 
     String staffName "❓"
     }
   
 
-  "Subject" {
+  "subject" {
     String id "🗝️"
     Int number 
     String title 
@@ -57,27 +57,27 @@ SUBJECT_STATE_STATUS_SUSPEND SUBJECT_STATE_STATUS_SUSPEND
     }
   
 
-  "Submission" {
+  "submission" {
     String id "🗝️"
-    DateTime submitted_at 
+    DateTime submittedAt 
     }
   
-    "User" o|--|| "UserUserableType" : "enum:userable_type"
-    "User" o|--|o "Student" : "Student"
-    "User" o|--|o "Staff" : "Staff"
-    "User" o{--}o "Subject" : "Subject"
-    "Student" o|--|o "ClassRoom" : "ClassRoom"
-    "Student" o{--}o "Submission" : "Submissions"
-    "Student" o{--}o "User" : "User"
-    "Staff" o{--}o "Subject" : "Subjects"
-    "Staff" o{--}o "ClassRoom" : "ClassRoom"
-    "Staff" o{--}o "User" : "User"
-    "ClassRoom" o|--|| "Staff" : "Staff"
-    "ClassRoom" o{--}o "Student" : "Student"
-    "Subject" o|--|| "SubjectStateStatus" : "enum:status"
-    "Subject" o|--|| "User" : "User"
-    "Subject" o{--}o "Submission" : "Submission"
-    "Subject" o|--|o "Staff" : "Staff"
-    "Submission" o|--|| "Student" : "Student"
-    "Submission" o|--|| "Subject" : "Subject"
+    "user" o|--|| "UserUserableType" : "enum:userableType"
+    "user" o|--|o "student" : "student"
+    "user" o|--|o "staff" : "staff"
+    "user" o{--}o "subject" : "subject"
+    "student" o|--|o "classRoom" : "classRoom"
+    "student" o{--}o "submission" : "submissions"
+    "student" o{--}o "user" : "user"
+    "staff" o{--}o "subject" : "subjects"
+    "staff" o{--}o "classRoom" : "classRoom"
+    "staff" o{--}o "user" : "user"
+    "classRoom" o|--|| "staff" : "staff"
+    "classRoom" o{--}o "student" : "student"
+    "subject" o|--|| "SubjectStateStatus" : "enum:status"
+    "subject" o|--|| "user" : "user"
+    "subject" o{--}o "submission" : "submission"
+    "subject" o|--|o "staff" : "staff"
+    "submission" o|--|| "student" : "student"
+    "submission" o|--|| "subject" : "subject"
 ```

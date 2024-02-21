@@ -2,6 +2,7 @@ import { join } from 'path';
 
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { AuthModule } from '@graphql/Auth/Auth.module';
+import { StaffModule } from '@graphql/Staff/Staff.module';
 import { UserModule } from '@graphql/User/User.module';
 import type { ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloDriver } from '@nestjs/apollo';
@@ -32,6 +33,7 @@ import { ViewerModule } from './Viewer/Viewer.module';
     ViewerModule,
     AuthModule,
     UserModule,
+    StaffModule,
   ],
 })
 export class GraphQLServerModule {}
