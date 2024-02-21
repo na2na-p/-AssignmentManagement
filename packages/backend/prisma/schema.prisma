@@ -46,6 +46,7 @@ model student {
   name             String
   studentNumber    String
   classRoomId      String?
+  staffName        String
   selectedClassIds String[]
   hasManagerRole   Boolean
   classRoom        classRoom?   @relation(fields: [classRoomId], references: [id])
