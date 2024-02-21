@@ -46,7 +46,7 @@ extend type Mutation {
     スタッフ情報
     """
     staff: StaffCreateInput!
-  ): Staff!
+  ): User!
 
   """
   スタッフ情報の更新
@@ -57,5 +57,5 @@ extend type Mutation {
     スタッフ情報
     """
     staff: StaffUpdateInput!
-  ): Staff!
+  ): User!
 }

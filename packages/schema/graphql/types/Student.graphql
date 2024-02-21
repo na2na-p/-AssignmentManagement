@@ -118,10 +118,10 @@ extend type Mutation {
     学生情報
     """
     student: StudentCreateInput!
-  ): User
+  ): User!
 
   """
   学生情報の更新
   """
-  updateStudent(id: ID!, student: StudentUpdateInput!): Student
+  updateStudent(id: ID!, student: StudentUpdateInput!): User!
 }

@@ -147,7 +147,7 @@ type Mutation {
     スタッフ情報
     """
     staff: StaffCreateInput!
-  ): Staff!
+  ): User!
   """
   スタッフ情報の更新
   """
@@ -157,7 +157,7 @@ type Mutation {
     スタッフ情報
     """
     staff: StaffUpdateInput!
-  ): Staff!
+  ): User!
   """
   学生の登録
   """
@@ -170,11 +170,11 @@ type Mutation {
     学生情報
     """
     student: StudentCreateInput!
-  ): User
+  ): User!
   """
   学生情報の更新
   """
-  updateStudent(id: ID!, student: StudentUpdateInput!): Student
+  updateStudent(id: ID!, student: StudentUpdateInput!): User!
   """
   課題の登録
   """
