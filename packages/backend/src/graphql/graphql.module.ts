@@ -1,10 +1,13 @@
 import { join } from 'path';
 
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { AuthModule } from '@graphql/Auth/Auth.module';
+import { UserModule } from '@graphql/User/User.module';
 import type { ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
+
 import { ViewerModule } from './Viewer/Viewer.module';
 
 @Module({
@@ -22,8 +25,13 @@ import { ViewerModule } from './Viewer/Viewer.module';
       playground: false,
       // TODO: productionであればfalseになるように
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      context: ({ req }: { req: { headers: { authorization: string } } }) => ({
+        req,
+      }),
     }),
     ViewerModule,
+    AuthModule,
+    UserModule,
   ],
 })
 export class GraphQLServerModule {}

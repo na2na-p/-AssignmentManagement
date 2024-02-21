@@ -2,11 +2,12 @@ import { NotFoundException } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
 import type { AuthResponse } from '@/generated/types';
+import { SignInInput } from '@/generated/types';
 import { UserService } from '@/graphql/User/User.service';
 
 import { AuthService } from './Auth.service';
 
-@Resolver()
+@Resolver('Auth')
 export class AuthResolver {
   constructor(
     private authService: AuthService,
@@ -14,10 +15,11 @@ export class AuthResolver {
   ) {}
 
   @Mutation()
-  async signin(
-    @Args('email') email: string,
-    @Args('password') password: string
+  async signIn(
+    @Args('SignInInput') signInInput: SignInInput
   ): Promise<AuthResponse> {
+    console.log('signInInput', signInInput);
+    const { email, password } = signInInput;
     const { userId, access_token } = await this.authService.signIn({
       email,
       password,
@@ -26,6 +28,8 @@ export class AuthResolver {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+    console.log('user', user);
+    console.log('access_token', access_token);
     return {
       user,
       token: access_token,
