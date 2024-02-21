@@ -66,7 +66,6 @@ export class AuthService {
 
     const isMatch = await bcrypt.compare(password, user.passwordDigest);
 
-    console.log('isMatch', isMatch);
     if (!isMatch) {
       throw new UnauthorizedException(
         '認証に失敗しました。メールアドレスまたはパスワードが正しくありません'

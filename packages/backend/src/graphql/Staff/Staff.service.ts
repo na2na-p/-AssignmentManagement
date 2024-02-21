@@ -76,7 +76,6 @@ export class StaffService {
     password: string;
   }): Promise<string> {
     const SALT_OR_ROUNDS = 10;
-    console.log('password', password);
     return bcrypt.hash(password, SALT_OR_ROUNDS);
   }
 }

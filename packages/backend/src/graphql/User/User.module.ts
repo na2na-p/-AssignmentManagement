@@ -6,6 +6,7 @@ import { UserResolver } from './User.resolver';
 import { UserService } from './User.service';
 import { ClassRoomService } from '../ClassRoom/ClassRoom.service';
 import { StaffService } from '../Staff/Staff.service';
+import { StudentService } from '../Student/Student.service';
 
 @Module({
   providers: [
@@ -14,6 +15,7 @@ import { StaffService } from '../Staff/Staff.service';
     StaffService,
     PrismaService,
     ClassRoomService,
+    StudentService,
   ],
   exports: [UserService],
 })
