@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
 
 import type { Student } from '@/generated/types';
 import { PrismaService } from '@/prisma/prisma.service';
@@ -30,15 +29,5 @@ export class StudentService {
       selectedClassIds: student.selectedClassIds,
       hasManagerRole: student.hasManagerRole,
     };
-  }
-
-  // TODO: どこかに共通化
-  async createPasswordDigest({
-    password,
-  }: {
-    password: string;
-  }): Promise<string> {
-    const SALT_OR_ROUNDS = 10;
-    return bcrypt.hash(password, SALT_OR_ROUNDS);
   }
 }
