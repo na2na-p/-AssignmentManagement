@@ -22,6 +22,7 @@ CREATE TABLE "student" (
     "userId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "studentNumber" TEXT NOT NULL,
+    "attendanceNumber" INTEGER NOT NULL,
     "classRoomId" TEXT,
     "staffName" TEXT NOT NULL,
     "selectedClassIds" TEXT[],

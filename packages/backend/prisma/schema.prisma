@@ -1,97 +1,98 @@
 generator erd {
-  provider = "prisma-erd-generator"
-  output   = "./erd.md"
+	provider = "prisma-erd-generator"
+	output   = "./erd.md"
 }
 
 generator client {
-  provider = "prisma-client-js"
+	provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+	provider = "postgresql"
+	url      = env("DATABASE_URL")
 }
 
 enum UserUserableType {
-  /// 学生
-  USER_USERABLE_TYPE_STUDENT
-  /// スタッフ
-  USER_USERABLE_TYPE_STAFF
+	/// 学生
+	USER_USERABLE_TYPE_STUDENT
+	/// スタッフ
+	USER_USERABLE_TYPE_STAFF
 }
 
 enum SubjectStateStatus {
-  /// 受付中
-  SUBJECT_STATE_STATUS_OPEN
-  /// 締め切り
-  SUBJECT_STATE_STATUS_CLOSE
-  /// 一時停止中
-  SUBJECT_STATE_STATUS_SUSPEND
+	/// 受付中
+	SUBJECT_STATE_STATUS_OPEN
+	/// 締め切り
+	SUBJECT_STATE_STATUS_CLOSE
+	/// 一時停止中
+	SUBJECT_STATE_STATUS_SUSPEND
 }
 
 model user {
-  id             String           @id
-  email          String           @unique
-  passwordDigest String
-  userableType   UserUserableType
-  studentId      String?
-  staffId        String?
-  student        student?         @relation(fields: [studentId], references: [id])
-  staff          staff?           @relation(fields: [staffId], references: [id])
-  subject        subject[]
+	id             String           @id
+	email          String           @unique
+	passwordDigest String
+	userableType   UserUserableType
+	studentId      String?
+	staffId        String?
+	student        student?         @relation(fields: [studentId], references: [id])
+	staff          staff?           @relation(fields: [staffId], references: [id])
+	subject        subject[]
 }
 
 model student {
-  id               String       @id
-  userId           String
-  name             String
-  studentNumber    String
-  classRoomId      String?
-  staffName        String
-  selectedClassIds String[]
-  hasManagerRole   Boolean
-  classRoom        classRoom?   @relation(fields: [classRoomId], references: [id])
-  submissions      submission[]
-  user             user[]
+	id               String       @id
+	userId           String
+	name             String
+	studentNumber    String
+	attendanceNumber Int
+	classRoomId      String?
+	staffName        String
+	selectedClassIds String[]
+	hasManagerRole   Boolean
+	classRoom        classRoom?   @relation(fields: [classRoomId], references: [id])
+	submissions      submission[]
+	user             user[]
 }
 
 model staff {
-  id        String      @id
-  userId    String
-  name      String
-  subjects  subject[]
-  classRoom classRoom[]
-  user      user[]
+	id        String      @id
+	userId    String
+	name      String
+	subjects  subject[]
+	classRoom classRoom[]
+	user      user[]
 }
 
 model classRoom {
-  id        String    @id
-  classId   String
-  staffId   String
-  staff     staff     @relation(fields: [staffId], references: [id])
-  staffName String
-  student   student[]
+	id        String    @id
+	classId   String
+	staffId   String
+	staff     staff     @relation(fields: [staffId], references: [id])
+	staffName String
+	student   student[]
 }
 
 model subject {
-  id         String             @id
-  number     Int
-  title      String
-  code       String
-  status     SubjectStateStatus
-  issuerId   String
-  name       String
-  deadline   DateTime
-  user       user               @relation(fields: [issuerId], references: [id])
-  submission submission[]
-  staff      staff?             @relation(fields: [staffId], references: [id])
-  staffId    String?
+	id         String             @id
+	number     Int
+	title      String
+	code       String
+	status     SubjectStateStatus
+	issuerId   String
+	name       String
+	deadline   DateTime
+	user       user               @relation(fields: [issuerId], references: [id])
+	submission submission[]
+	staff      staff?             @relation(fields: [staffId], references: [id])
+	staffId    String?
 }
 
 model submission {
-  id          String   @id
-  submittedAt DateTime
-  studentId   String
-  subjectId   String
-  student     student  @relation(fields: [studentId], references: [id])
-  subject     subject  @relation(fields: [subjectId], references: [id])
+	id          String   @id
+	submittedAt DateTime
+	studentId   String
+	subjectId   String
+	student     student  @relation(fields: [studentId], references: [id])
+	subject     subject  @relation(fields: [subjectId], references: [id])
 }

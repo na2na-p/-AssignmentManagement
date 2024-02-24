@@ -1,22 +1,22 @@
 import { ClassRoomService } from '@graphql/ClassRoom/ClassRoom.service';
+import { StaffService } from '@graphql/Staff/Staff.service';
 import { StudentService } from '@graphql/Student/Student.service';
 import { UserService } from '@graphql/User/User.service';
 import { Module } from '@nestjs/common';
 
 import { PrismaService } from '@/prisma/prisma.service';
 
-import { StaffResolver } from './Staff.resolver';
-import { StaffService } from './Staff.service';
+import { StudentResolver } from './Student.resolver';
 
 @Module({
   providers: [
-    StaffService,
-    StaffResolver,
-    UserService,
-    PrismaService,
-    ClassRoomService,
     StudentService,
+    StudentResolver,
+    UserService,
+    StaffService,
+    ClassRoomService,
+    PrismaService,
   ],
-  exports: [StaffService, StaffResolver],
+  exports: [StudentService, StudentResolver],
 })
-export class StaffModule {}
+export class StudentModule {}
