@@ -23,6 +23,7 @@ CREATE TABLE "student" (
     "name" TEXT NOT NULL,
     "studentNumber" TEXT NOT NULL,
     "classRoomId" TEXT,
+    "staffName" TEXT NOT NULL,
     "selectedClassIds" TEXT[],
     "hasManagerRole" BOOLEAN NOT NULL,
 
@@ -43,7 +44,7 @@ CREATE TABLE "classRoom" (
     "id" TEXT NOT NULL,
     "classId" TEXT NOT NULL,
     "staffId" TEXT NOT NULL,
-    "staffName" TEXT,
+    "staffName" TEXT NOT NULL,
 
     CONSTRAINT "classRoom_pkey" PRIMARY KEY ("id")
 );

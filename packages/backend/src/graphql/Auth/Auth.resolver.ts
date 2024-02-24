@@ -18,7 +18,6 @@ export class AuthResolver {
   async signIn(
     @Args('SignInInput') signInInput: SignInInput
   ): Promise<AuthResponse> {
-    console.log('signInInput', signInInput);
     const { email, password } = signInInput;
     const { userId, access_token } = await this.authService.signIn({
       email,

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
 
 import type {
   Staff,
@@ -8,13 +7,14 @@ import type {
 } from '@/generated/types';
 import { UserUserableType } from '@/generated/types';
 import { PrismaService } from '@/prisma/prisma.service';
+import { createPasswordDigest } from '@/utils/createPasswordDigest';
 
 @Injectable()
 export class StaffService {
   constructor(private prismaService: PrismaService) {}
 
   async findById(id: string): Promise<Staff | null> {
-    return this.prismaService.staff.findUnique({
+    return this.prismaService.staff.findFirstOrThrow({
       where: { id },
     });
   }
@@ -30,7 +30,7 @@ export class StaffService {
     staffCreateInput: StaffCreateInput;
     userCreateInput: UserCreateInput;
   }): Promise<Staff> {
-    const passwordDigest = await this.createPasswordDigest({
+    const passwordDigest = await createPasswordDigest({
       password: userCreateInput.password,
     });
 
@@ -67,16 +67,5 @@ export class StaffService {
       return staff;
     });
     return results;
-  }
-
-  // TODO: どこかに共通化
-  async createPasswordDigest({
-    password,
-  }: {
-    password: string;
-  }): Promise<string> {
-    const SALT_OR_ROUNDS = 10;
-    console.log('password', password);
-    return bcrypt.hash(password, SALT_OR_ROUNDS);
   }
 }

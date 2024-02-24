@@ -370,8 +370,9 @@ input StudentCreateInput {
   staffName: String!
   """
   マネージャーロールがあるかどうか
+  デフォルト: false
   """
-  hasManagerRole: Boolean!
+  hasManagerRole: Boolean
 }
 
 """
@@ -400,6 +401,7 @@ input StudentUpdateInput {
   staffName: String
   """
   マネージャーロールがあるかどうか
+  デフォルト: false
   """
   hasManagerRole: Boolean
 }

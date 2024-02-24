@@ -23,7 +23,6 @@ export class ViewerResolver {
     }
 
     const me = await this.userService.findById(currentUser.userId);
-    console.log('me', me);
     const assignedSubjects = await this.viewerService.getAssignedSubjects(
       currentUser.userId
     );

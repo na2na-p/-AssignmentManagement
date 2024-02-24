@@ -27,6 +27,7 @@ SUBJECT_STATE_STATUS_SUSPEND SUBJECT_STATE_STATUS_SUSPEND
     String userId 
     String name 
     String studentNumber 
+    String staffName 
     String selectedClassIds 
     Boolean hasManagerRole 
     }
@@ -42,7 +43,7 @@ SUBJECT_STATE_STATUS_SUSPEND SUBJECT_STATE_STATUS_SUSPEND
   "classRoom" {
     String id "🗝️"
     String classId 
-    String staffName "❓"
+    String staffName 
     }
   
 

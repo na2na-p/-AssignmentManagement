@@ -23,7 +23,6 @@ export class StaffResolver {
       staffCreateInput: staff,
       userCreateInput: user,
     });
-    console.log('createdStaff', createdStaff);
     return createdStaff;
   }
 }
