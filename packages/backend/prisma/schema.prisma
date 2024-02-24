@@ -46,7 +46,7 @@ model student {
 	name             String
 	studentNumber    String
 	attendanceNumber Int
-	classRoomId      String?
+	classRoomId      String
 	staffName        String
 	selectedClassIds String[]
 	hasManagerRole   Boolean
@@ -66,9 +66,9 @@ model staff {
 
 model classRoom {
 	id        String    @id
-	classId   String
-	staffId   String
-	staff     staff     @relation(fields: [staffId], references: [id])
+	classId   String    @unique
+	staffId   String?
+	staff     staff?    @relation(fields: [staffId], references: [id])
 	staffName String
 	student   student[]
 }

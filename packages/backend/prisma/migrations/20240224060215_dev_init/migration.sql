@@ -23,7 +23,7 @@ CREATE TABLE "student" (
     "name" TEXT NOT NULL,
     "studentNumber" TEXT NOT NULL,
     "attendanceNumber" INTEGER NOT NULL,
-    "classRoomId" TEXT,
+    "classRoomId" TEXT NOT NULL,
     "staffName" TEXT NOT NULL,
     "selectedClassIds" TEXT[],
     "hasManagerRole" BOOLEAN NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE "staff" (
 CREATE TABLE "classRoom" (
     "id" TEXT NOT NULL,
     "classId" TEXT NOT NULL,
-    "staffId" TEXT NOT NULL,
+    "staffId" TEXT,
     "staffName" TEXT NOT NULL,
 
     CONSTRAINT "classRoom_pkey" PRIMARY KEY ("id")
@@ -78,6 +78,9 @@ CREATE TABLE "submission" (
 -- CreateIndex
 CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "classRoom_classId_key" ON "classRoom"("classId");
+
 -- AddForeignKey
 ALTER TABLE "user" ADD CONSTRAINT "user_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "student"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -85,10 +88,10 @@ ALTER TABLE "user" ADD CONSTRAINT "user_studentId_fkey" FOREIGN KEY ("studentId"
 ALTER TABLE "user" ADD CONSTRAINT "user_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "student" ADD CONSTRAINT "student_classRoomId_fkey" FOREIGN KEY ("classRoomId") REFERENCES "classRoom"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "student" ADD CONSTRAINT "student_classRoomId_fkey" FOREIGN KEY ("classRoomId") REFERENCES "classRoom"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "classRoom" ADD CONSTRAINT "classRoom_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "classRoom" ADD CONSTRAINT "classRoom_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "subject" ADD CONSTRAINT "subject_issuerId_fkey" FOREIGN KEY ("issuerId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -74,7 +74,7 @@ SUBJECT_STATE_STATUS_SUSPEND SUBJECT_STATE_STATUS_SUSPEND
     "staff" o{--}o "subject" : "subjects"
     "staff" o{--}o "classRoom" : "classRoom"
     "staff" o{--}o "user" : "user"
-    "classRoom" o|--|| "staff" : "staff"
+    "classRoom" o|--|o "staff" : "staff"
     "classRoom" o{--}o "student" : "student"
     "subject" o|--|| "SubjectStateStatus" : "enum:status"
     "subject" o|--|| "user" : "user"

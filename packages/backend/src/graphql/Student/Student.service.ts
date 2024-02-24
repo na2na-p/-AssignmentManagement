@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { ClassRoomService } from '@graphql/ClassRoom/ClassRoom.service';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 import type {
   Student,
@@ -13,26 +14,28 @@ const DEFAULT_STUDENT_MANAGER_ROLE = false;
 
 @Injectable()
 export class StudentService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private classRoomService: ClassRoomService
+  ) {}
 
   async findById(id: string): Promise<Student | null> {
     const student = await this.prismaService.student.findFirstOrThrow({
       where: { id },
     });
 
-    // TODO: ClassRoom実装後にもどす
-    // if (!student.classRoomId) {
-    //   throw new Error('ClassRoom not found');
-    // }
-    //
-    // const classRoom = await this.prismaService.classRoom.findFirstOrThrow({
-    //   where: { id: student.classRoomId },
-    // });
+    if (!student.classRoomId) {
+      throw new Error('ClassRoom not found');
+    }
+
+    const classRoom = await this.prismaService.classRoom.findFirstOrThrow({
+      where: { id: student.classRoomId },
+    });
 
     return {
       id: student.id,
       name: student.name,
-      classRoom: [] as unknown as Student['classRoom'],
+      classRoom,
       staffName: student.staffName,
       studentNumber: student.studentNumber,
       attendanceNumber: student.attendanceNumber,
@@ -64,11 +67,26 @@ export class StudentService {
         throw new Error('User already exists');
       }
 
+      if (!this.classRoomService.validateClassId(studentCreateInput.classId)) {
+        throw new BadRequestException('クラス記号が正しい形式ではありません');
+      }
+
+      const classRoom =
+        (await prisma.classRoom.findFirst({
+          where: { classId: studentCreateInput.classId },
+          select: { id: true },
+        })) ??
+        (await this.classRoomService.create({
+          classId: studentCreateInput.classId,
+          staffName: studentCreateInput.staffName,
+        }));
+
       const student = await prisma.student.create({
         data: {
           id: studentId,
           name: studentCreateInput.name,
           userId,
+          classRoomId: classRoom.id,
           studentNumber: studentCreateInput.studentNumber,
           attendanceNumber: studentCreateInput.attendanceNumber,
           staffName: studentCreateInput.staffName,
@@ -93,10 +111,20 @@ export class StudentService {
 
       return student;
     });
+
+    const classRoom = await this.prismaService.classRoom.findFirstOrThrow({
+      where: { classId: studentCreateInput.classId },
+    });
+
     return {
-      ...results,
-      // TODO: classRoomの作成戦略見直す
-      classRoom: [] as unknown as Student['classRoom'],
-    };
+      id: results.id,
+      name: results.name,
+      classRoom,
+      staffName: results.staffName,
+      studentNumber: results.studentNumber,
+      attendanceNumber: results.attendanceNumber,
+      selectedClassIds: results.selectedClassIds,
+      hasManagerRole: results.hasManagerRole,
+    } as const;
   }
 }
