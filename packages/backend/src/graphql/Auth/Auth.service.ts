@@ -1,12 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import type { User } from '@prisma/client';
+import type { user } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 import type { SignInInput } from '@/generated/types';
 import { PrismaService } from '@/prisma/prisma.service';
-
-const SALT_OR_ROUNDS = 10;
 
 export type JwtPayload = {
   /**
@@ -44,18 +42,10 @@ export class AuthService {
     };
   }
 
-  private async findUser(email: string): Promise<User | null> {
+  private async findUser(email: string): Promise<user | null> {
     return this.prisma.user.findUnique({
       where: { email },
     });
-  }
-
-  private async createPasswordDigest({
-    password,
-  }: {
-    password: string;
-  }): Promise<string> {
-    return bcrypt.hash(password, SALT_OR_ROUNDS);
   }
 
   private async getUserIdByToken(token: string): Promise<string> {
@@ -66,7 +56,7 @@ export class AuthService {
   private async validateUser(
     email: string,
     password: string
-  ): Promise<Pick<User, 'id' | 'studentId' | 'staffId'>> {
+  ): Promise<Pick<user, 'id' | 'studentId' | 'staffId'>> {
     const user = await this.findUser(email);
     if (!user) {
       throw new UnauthorizedException(
@@ -74,9 +64,10 @@ export class AuthService {
       );
     }
 
-    const isMatch = await bcrypt.compare(password, user.password_digest);
+    const isMatch = await bcrypt.compare(password, user.passwordDigest);
 
-    if (isMatch) {
+    console.log('isMatch', isMatch);
+    if (!isMatch) {
       throw new UnauthorizedException(
         '認証に失敗しました。メールアドレスまたはパスワードが正しくありません'
       );

@@ -15,6 +15,6 @@ describe('ViewerService', () => {
   });
 
   it('should be defined', () => {
-    expect(service.Viewer).toBeDefined();
+    expect(service.getAssignedSubjects).toBeDefined();
   });
 });
