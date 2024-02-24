@@ -3,11 +3,7 @@ import { UserService } from '@graphql/User/User.service';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
 import type { User } from '@/generated/types';
-import {
-  Student,
-  StudentCreateInput,
-  UserCreateInput,
-} from '@/generated/types';
+import { StudentCreateInput, UserCreateInput } from '@/generated/types';
 import { uuidv7 } from '@/utils/uuidv7';
 
 @Resolver('Student')
@@ -24,8 +20,6 @@ export class StudentResolver {
   ): Promise<User> {
     const studentId = uuidv7();
     const userId = uuidv7();
-    console.log('user', user);
-    console.log('student', student);
 
     void (await this.studentService.createStudent({
       studentId,
