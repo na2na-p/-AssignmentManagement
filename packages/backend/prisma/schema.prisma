@@ -1,0 +1,96 @@
+generator erd {
+	provider = "prisma-erd-generator"
+	output   = "./erd.md"
+}
+
+generator client {
+	provider = "prisma-client-js"
+}
+
+datasource db {
+	provider = "postgresql"
+	url      = env("DATABASE_URL")
+}
+
+enum UserUserableType {
+	/// 学生
+	USER_USERABLE_TYPE_STUDENT
+	/// スタッフ
+	USER_USERABLE_TYPE_STAFF
+}
+
+enum SubjectStateStatus {
+	/// 受付中
+	SUBJECT_STATE_STATUS_OPEN
+	/// 締め切り
+	SUBJECT_STATE_STATUS_CLOSE
+	/// 一時停止中
+	SUBJECT_STATE_STATUS_SUSPEND
+}
+
+model User {
+	id              String           @id
+	email           String           @unique
+	password_digest String
+	userable_type   UserUserableType
+	studentId       String?
+	staffId         String?
+	Student         Student?         @relation(fields: [studentId], references: [id])
+	Staff           Staff?           @relation(fields: [staffId], references: [id])
+	Subject         Subject[]
+}
+
+model Student {
+	id               String       @id
+	userId           String
+	name             String
+	student_number   String
+	classRoomId      String?
+	selectedClassIds String[]
+	hasManagerRole   Boolean
+	ClassRoom        ClassRoom?   @relation(fields: [classRoomId], references: [id])
+	Submissions      Submission[]
+	User             User[]
+}
+
+model Staff {
+	id        String      @id
+	userId    String
+	name      String
+	Subjects  Subject[]
+	ClassRoom ClassRoom[]
+	User      User[]
+}
+
+model ClassRoom {
+	id        String    @id
+	classId   String
+	staffId   String
+	Staff     Staff     @relation(fields: [staffId], references: [id])
+	staffName String?
+	Student   Student[]
+}
+
+model Subject {
+	id         String             @id
+	number     Int
+	title      String
+	code       String
+	status     SubjectStateStatus
+	issuerId   String
+	name       String
+	deadline   DateTime
+	User       User               @relation(fields: [issuerId], references: [id])
+	Submission Submission[]
+	Staff      Staff?             @relation(fields: [staffId], references: [id])
+	staffId    String?
+}
+
+model Submission {
+	id           String   @id
+	submitted_at DateTime
+	studentId    String
+	subjectId    String
+	Student      Student  @relation(fields: [studentId], references: [id])
+	Subject      Subject  @relation(fields: [subjectId], references: [id])
+}

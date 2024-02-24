@@ -39,7 +39,6 @@ erDiagram
 		string title "課題主題, NotNull"
 		string code "科目記号, NotNull"
 		string status "受付状態, NotNull"
-		string description "課題の説明, NotNull"
 		string created_by FK "課題を作成したスタッフのID, UUIDv7, NotNull"
 		datetime deadline "課題の締め切り日時, NotNull"
 	}
