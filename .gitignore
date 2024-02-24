@@ -133,3 +133,4 @@ dist
 .turbo
 .idea
 !/packages/schema/graphql/dist/
+.DS_Store
