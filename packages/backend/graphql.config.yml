@@ -1,0 +1,12 @@
+schema: src/generated/schema.graphql
+extensions:
+  nitrogql:
+    generate:
+      schemaOutput: ./src/generated/schema.ts
+      resolversOutput: ./src/generated/resolvers.d.ts
+      emitSchemaRuntime: true
+      type:
+        scalarTypes:
+          DateTime: Date
+          Email: string
+          Password: string
