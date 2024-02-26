@@ -69,6 +69,10 @@ type Query {
   """
   hello: String
   """
+  Enumeration
+  """
+  Enumeration: Enumeration!
+  """
   課題の取得
   """
   subject(
@@ -278,6 +282,17 @@ type ClassRoom implements Node {
   NOTE: 課題提出時に当該スタッフが存在しなければ、入力値をここに詰める
   """
   staffName: String!
+}
+
+"""
+Enumeration
+"""
+type Enumeration {
+  """
+   クラス選択肢
+  idとnameが同じ値
+  """
+  classRoomChoices: [Choice!]!
 }
 
 """

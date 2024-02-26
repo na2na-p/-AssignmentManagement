@@ -1,0 +1,17 @@
+"""
+Enumeration
+"""
+type Enumeration {
+  """
+   クラス選択肢
+  idとnameが同じ値
+  """
+  classRoomChoices: [Choice!]!
+}
+
+extend type Query {
+  """
+  Enumeration
+  """
+  Enumeration: Enumeration!
+}
