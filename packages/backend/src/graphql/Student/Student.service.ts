@@ -5,8 +5,8 @@ import type {
   Student,
   StudentCreateInput,
   UserCreateInput,
-} from '@/generated/types';
-import { UserUserableType } from '@/generated/types';
+} from '@/generated/schema';
+import { UserUserableType } from '@/generated/schema';
 import { PrismaService } from '@/prisma/prisma.service';
 import { createPasswordDigest } from '@/utils/createPasswordDigest';
 
@@ -28,11 +28,10 @@ export class StudentService {
       throw new Error('ClassRoom not found');
     }
 
-    const classRoom = await this.prismaService.classRoom.findFirstOrThrow({
-      where: { id: student.classRoomId },
-    });
+    const classRoom = await this.classRoomService.findById(student.classRoomId);
 
     return {
+      __typename: 'Student',
       id: student.id,
       name: student.name,
       classRoom,
@@ -112,11 +111,10 @@ export class StudentService {
       return student;
     });
 
-    const classRoom = await this.prismaService.classRoom.findFirstOrThrow({
-      where: { classId: studentCreateInput.classId },
-    });
+    const classRoom = await this.classRoomService.findById(results.classRoomId);
 
     return {
+      __typename: 'Student',
       id: results.id,
       name: results.name,
       classRoom,

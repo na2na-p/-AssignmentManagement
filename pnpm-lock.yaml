@@ -72,6 +72,9 @@ importers:
         specifier: ^0.6.3
         version: 0.6.3
     devDependencies:
+      '@graphql-typed-document-node/core':
+        specifier: ^3.2.0
+        version: 3.2.0(graphql@16.8.1)
       '@jest/types':
         specifier: ^29.6.3
         version: 29.6.3
@@ -87,6 +90,9 @@ importers:
       '@nestjs/testing':
         specifier: ^10.2.10
         version: 10.3.3(@nestjs/common@10.3.3)(@nestjs/core@10.3.3)(@nestjs/platform-express@10.3.3)
+      '@nitrogql/cli':
+        specifier: 1.7.0-beta.2
+        version: 1.7.0-beta.2(graphql@16.8.1)
       '@swc/cli':
         specifier: ^0.1.63
         version: 0.1.65(@swc/core@1.4.1)
@@ -3257,6 +3263,41 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
+
+  /@nitrogql/cli@1.7.0-beta.2(graphql@16.8.1):
+    resolution: {integrity: sha512-DUjAqrgv5hY43dwXg4h68fcV2l8am+CoWWxNaxX4iQRkjavcQRn2Src4ZG7hO3NdZin5AO7mRepmuse0OgOLuA==}
+    hasBin: true
+    dependencies:
+      '@nitrogql/core': 1.7.0-beta.2(graphql@16.8.1)
+      '@nitrogql/wasi-preview1': 1.7.0-beta.2
+    transitivePeerDependencies:
+      - graphql
+    dev: true
+
+  /@nitrogql/core@1.7.0-beta.2(graphql@16.8.1):
+    resolution: {integrity: sha512-KGt4/kgqnwZsOB2ZZRb0Fp5AQU/xyzJodwzogn6lbV8QKHk+yVJKbUfj8LRpqT4JkJX2E35l0WBCiGkcc2zBIA==}
+    peerDependencies:
+      graphql: ^16.0.0 || ^17.0.0
+    peerDependenciesMeta:
+      graphql:
+        optional: true
+    dependencies:
+      '@nitrogql/esbuild-register': 1.7.0-beta.2
+      esbuild: 0.19.12
+      graphql: 16.8.1
+    dev: true
+
+  /@nitrogql/esbuild-register@1.7.0-beta.2:
+    resolution: {integrity: sha512-uSVheVFtxvf2OdAVmUNJBBPOZeESDsJnvxW/XqjSAGmN8zIoBy+XlQHJM4UiK2uxfeQb8poZhx+1MN6edsNFkQ==}
+    dependencies:
+      esbuild: 0.19.12
+      jsonc-parser: 3.2.1
+      pirates: 4.0.6
+    dev: true
+
+  /@nitrogql/wasi-preview1@1.7.0-beta.2:
+    resolution: {integrity: sha512-TuFlpSfiqNmZcDr4CRp8P/TrUnfHzgL2vQeRFV2oBx0Y+jEF4twDYBRI19dg01PrgFpntp9nxWNaKRBAp2Q9yw==}
+    dev: true
 
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}

@@ -1,8 +1,8 @@
 import { UserService } from '@graphql/User/User.service';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
-import type { User } from '@/generated/types';
-import { Staff, StaffCreateInput, UserCreateInput } from '@/generated/types';
+import type { User } from '@/generated/resolvers';
+import { StaffCreateInput, UserCreateInput } from '@/generated/schema';
 import { uuidv7 } from '@/utils/uuidv7';
 
 import { StaffService } from './Staff.service';

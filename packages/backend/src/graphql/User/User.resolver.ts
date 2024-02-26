@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { Args, Resolver } from '@nestjs/graphql';
 
-import type { User } from '@/generated/types';
+import type { User } from '@/generated/resolvers';
 
 import { UserService } from './User.service';
 
@@ -16,6 +16,4 @@ export class UserResolver {
     }
     return user;
   }
-
-  // 他のクエリやミューテーションを追加可能
 }

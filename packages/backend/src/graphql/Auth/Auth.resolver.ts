@@ -1,8 +1,8 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
-import type { AuthResponse } from '@/generated/types';
-import { SignInInput } from '@/generated/types';
+import type { AuthResponse } from '@/generated/resolvers';
+import { SignInInput } from '@/generated/schema';
 import { UserService } from '@/graphql/User/User.service';
 
 import { AuthService } from './Auth.service';

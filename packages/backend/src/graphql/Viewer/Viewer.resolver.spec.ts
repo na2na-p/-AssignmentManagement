@@ -17,9 +17,10 @@ describe('ViewerResolver', () => {
         {
           provide: ViewerService,
           useValue: {
-            getAssignedSubjects: jest
-              .fn()
-              .mockResolvedValue(['Subject1', 'Subject2']),
+            getAssignedSubjects: jest.fn().mockResolvedValue([
+              { id: 1, title: 'Subject1' },
+              { id: 2, title: 'Subject2' },
+            ]),
           },
         },
         {
@@ -51,7 +52,10 @@ describe('ViewerResolver', () => {
     const currentUser = { userId: '1', username: 'Test User' };
     const result = await resolver.Viewer(currentUser);
     expect(result).toEqual({
-      assignedSubjects: ['Subject1', 'Subject2'],
+      assignedSubjects: [
+        { __typename: 'Subject', id: 1, title: 'Subject1' },
+        { __typename: 'Subject', id: 2, title: 'Subject2' },
+      ],
       me: { id: currentUser.userId, name: currentUser.username },
     });
     expect(viewerService.getAssignedSubjects).toHaveBeenCalledWith('1');

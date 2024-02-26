@@ -22,8 +22,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r tsx/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "graphql-build": "cd ../schema && pnpm build ",
-    "graphql-codegen": "pnpm graphql-build && tsx ./scripts/generate-typings.ts",
+    "graphql-build": "cd ../schema && pnpm build",
+		"graphql-codegen":"pnpm graphql-build && cp ../schema/graphql/dist/schema.graphql ./src/generated/schema.graphql && nitrogql generate",
     "postinstall": "pnpm prisma generate && pnpm graphql-codegen",
     "type-check": "pnpm tsc --noEmit"
   },
@@ -49,12 +49,14 @@
     "uuidv7": "^0.6.3"
   },
   "devDependencies": {
+    "@graphql-typed-document-node/core": "^3.2.0",
     "@jest/types": "^29.6.3",
     "@mermaid-js/mermaid-cli": "^10.6.1",
     "@nestjs/cli": "^10.2.1",
-    "@nestjs/graphql": "12.0.11",
+    "@nestjs/graphql": "12.1.1",
     "@nestjs/schematics": "^10.0.3",
     "@nestjs/testing": "^10.2.10",
+    "@nitrogql/cli": "1.7.0-beta.2",
     "@swc/cli": "^0.1.63",
     "@swc/core": "^1.3.101",
     "@swc/jest": "^0.2.29",

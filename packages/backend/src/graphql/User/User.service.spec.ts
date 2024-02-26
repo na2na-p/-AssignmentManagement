@@ -23,7 +23,7 @@ describe('UserService', () => {
           provide: PrismaService,
           useValue: {
             user: {
-              findFirst: jest.fn(),
+              findFirstOrThrow: jest.fn(),
             },
           },
         },
@@ -61,7 +61,7 @@ describe('UserService', () => {
   });
 
   it('finds and returns a user with student details', async () => {
-    jest.spyOn(prismaService.user, 'findFirst').mockResolvedValueOnce({
+    jest.spyOn(prismaService.user, 'findFirstOrThrow').mockResolvedValueOnce({
       id: 'user1',
       email: 'student@example.com',
       userableType: 'USER_USERABLE_TYPE_STUDENT',
@@ -71,16 +71,18 @@ describe('UserService', () => {
 
     const result = await service.findById('user1');
     expect(result).toEqual({
+      __typename: 'User',
       id: 'user1',
       email: 'student@example.com',
       userableType: 'USER_USERABLE_TYPE_STUDENT',
       student: { id: 'studentId', name: 'Student Name' },
+      staff: null,
     });
     expect(studentService.findById).toHaveBeenCalledWith('studentId');
   });
 
   it('finds and returns a user with staff details', async () => {
-    jest.spyOn(prismaService.user, 'findFirst').mockResolvedValueOnce({
+    jest.spyOn(prismaService.user, 'findFirstOrThrow').mockResolvedValueOnce({
       id: 'user2',
       email: 'staff@example.com',
       userableType: 'USER_USERABLE_TYPE_STAFF',
@@ -90,13 +92,13 @@ describe('UserService', () => {
 
     const result = await service.findById('user2');
     expect(result).toEqual({
+      __typename: 'User',
       id: 'user2',
       email: 'staff@example.com',
       userableType: 'USER_USERABLE_TYPE_STAFF',
       staff: { id: 'staffId', name: 'Staff Name' },
+      student: null,
     });
     expect(staffService.findById).toHaveBeenCalledWith('staffId');
   });
-
-  // 他のテストケース（例えば、ユーザーが見つからない場合のエラーハンドリングなど）もここに追加する
 });
