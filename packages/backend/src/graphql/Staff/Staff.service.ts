@@ -4,8 +4,8 @@ import type {
   Staff,
   StaffCreateInput,
   UserCreateInput,
-} from '@/generated/types';
-import { UserUserableType } from '@/generated/types';
+} from '@/generated/schema';
+import { UserUserableType } from '@/generated/schema';
 import { PrismaService } from '@/prisma/prisma.service';
 import { createPasswordDigest } from '@/utils/createPasswordDigest';
 
@@ -14,9 +14,14 @@ export class StaffService {
   constructor(private prismaService: PrismaService) {}
 
   async findById(id: string): Promise<Staff | null> {
-    return this.prismaService.staff.findFirstOrThrow({
+    const staff = await this.prismaService.staff.findFirstOrThrow({
       where: { id },
     });
+
+    return {
+      __typename: 'Staff',
+      ...staff,
+    };
   }
 
   async createStaff({
@@ -66,6 +71,10 @@ export class StaffService {
 
       return staff;
     });
-    return results;
+
+    return {
+      __typename: 'Staff',
+      ...results,
+    };
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import type { User } from '@/generated/types';
-import { UserUserableType } from '@/generated/types';
+import type { User } from '@/generated/schema';
+import { UserUserableType } from '@/generated/schema';
 import { PrismaService } from '@/prisma/prisma.service';
 import { assertNever } from '@/utils/assertNever';
 
@@ -18,7 +18,7 @@ export class UserService {
     private classRoomService: ClassRoomService
   ) {}
 
-  async findById(id: string): Promise<User | undefined> {
+  async findById(id: string): Promise<User> {
     // TODO: クエリ見直し
     const user = await this.prismaService.user.findFirstOrThrow({
       where: { id },
@@ -31,9 +31,7 @@ export class UserService {
       throw new Error('User not found');
     }
 
-    // HACK: stringにwideningされて困るのでworkaround
-    const userableType = user.userableType as UserUserableType;
-    console.log('userableType', userableType);
+    const userableType = user.userableType;
 
     switch (userableType) {
       case UserUserableType.USER_USERABLE_TYPE_STUDENT:
@@ -43,24 +41,26 @@ export class UserService {
         const student = await this.studentService.findById(user.student.id);
 
         return {
+          __typename: 'User',
           id: user.id,
           email: user.email,
           userableType: UserUserableType.USER_USERABLE_TYPE_STUDENT,
+          staff: null,
           student,
         };
-        break;
       case UserUserableType.USER_USERABLE_TYPE_STAFF:
         if (!user.staff) {
           throw new Error('Staff not found');
         }
         const staff = await this.staffService.findById(user.staff.id);
         return {
+          __typename: 'User',
           id: user.id,
           email: user.email,
           userableType: UserUserableType.USER_USERABLE_TYPE_STAFF,
           staff,
+          student: null,
         };
-        break;
       default:
         assertNever(userableType);
         throw new Error('UserableType not found');

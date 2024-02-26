@@ -2,8 +2,8 @@ import { StudentService } from '@graphql/Student/Student.service';
 import { UserService } from '@graphql/User/User.service';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
-import type { User } from '@/generated/types';
-import { StudentCreateInput, UserCreateInput } from '@/generated/types';
+import type { User } from '@/generated/resolvers';
+import { StudentCreateInput, UserCreateInput } from '@/generated/schema';
 import { uuidv7 } from '@/utils/uuidv7';
 
 @Resolver('Student')

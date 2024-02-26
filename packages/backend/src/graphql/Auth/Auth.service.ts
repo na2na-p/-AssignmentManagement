@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import type { user } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
-import type { SignInInput } from '@/generated/types';
+import type { SignInInput } from '@/generated/schema';
 import { PrismaService } from '@/prisma/prisma.service';
 
 export type JwtPayload = {

@@ -1,6 +1,7 @@
+import { StaffService } from '@graphql/Staff/Staff.service';
 import { Injectable } from '@nestjs/common';
 
-import type { ClassRoom } from '@/generated/types';
+import type { ClassRoom } from '@/generated/schema';
 import { PrismaService } from '@/prisma/prisma.service';
 import { uuidv7 } from '@/utils/uuidv7';
 
@@ -11,12 +12,29 @@ const REGEXES = {
 
 @Injectable()
 export class ClassRoomService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private staffService: StaffService
+  ) {}
 
-  async findById(id: string): Promise<ClassRoom | null> {
-    return this.prismaService.classRoom.findFirstOrThrow({
+  async findById(id: string): Promise<ClassRoom> {
+    const classRoom = await this.prismaService.classRoom.findFirstOrThrow({
       where: { id },
     });
+
+    if (classRoom.staffId === null)
+      return {
+        ...classRoom,
+        __typename: 'ClassRoom',
+        staff: null,
+      };
+
+    const staff = await this.staffService.findById(classRoom.staffId);
+    return {
+      ...classRoom,
+      __typename: 'ClassRoom',
+      staff,
+    };
   }
 
   async create({
@@ -30,14 +48,20 @@ export class ClassRoomService {
     staffId?: string;
     staffName: string;
   }): Promise<ClassRoom> {
-    return this.prismaService.classRoom.create({
+    void (await this.prismaService.classRoom.create({
       data: {
         id,
         classId,
         staffId,
         staffName,
       },
-    });
+    }));
+
+    const classRoom = await this.findById(id);
+    return {
+      ...classRoom,
+      __typename: 'ClassRoom',
+    };
   }
 
   validateClassId(id: string): boolean {
