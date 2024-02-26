@@ -458,13 +458,13 @@ type Subject implements Node {
   """
   status: SubjectStateStatus!
   """
-  課題の説明
-  """
-  description: String!
-  """
   課題を登録したユーザー
   """
   issuer: User!
+  """
+  科目担当者名
+  """
+  staffName: String!
   """
   課題の締め切り日時
   """
@@ -497,9 +497,9 @@ input SubjectCreateInput {
   """
   status: SubjectStateStatus!
   """
-  課題の説明
+  科目担当者名
   """
-  description: String!
+  staffName: String!
   """
   課題の締め切り日時
   """
@@ -527,9 +527,9 @@ input SubjectUpdateInput {
   """
   status: SubjectStateStatus
   """
-  課題の説明
+  科目担当者名
   """
-  description: String
+  staffName: String
   """
   課題の締め切り日時
   """
