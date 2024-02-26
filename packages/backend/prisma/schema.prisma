@@ -59,7 +59,6 @@ model staff {
 	id        String      @id
 	userId    String
 	name      String
-	subjects  subject[]
 	classRoom classRoom[]
 	user      user[]
 }
@@ -82,10 +81,9 @@ model subject {
 	issuerId   String
 	name       String
 	deadline   DateTime
+	staffName  String
 	user       user               @relation(fields: [issuerId], references: [id])
 	submission submission[]
-	staff      staff?             @relation(fields: [staffId], references: [id])
-	staffId    String?
 }
 
 model submission {

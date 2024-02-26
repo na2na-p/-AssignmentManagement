@@ -56,6 +56,7 @@ SUBJECT_STATE_STATUS_SUSPEND SUBJECT_STATE_STATUS_SUSPEND
     SubjectStateStatus status 
     String name 
     DateTime deadline 
+    String staffName 
     }
   
 
@@ -71,7 +72,6 @@ SUBJECT_STATE_STATUS_SUSPEND SUBJECT_STATE_STATUS_SUSPEND
     "student" o|--|o "classRoom" : "classRoom"
     "student" o{--}o "submission" : "submissions"
     "student" o{--}o "user" : "user"
-    "staff" o{--}o "subject" : "subjects"
     "staff" o{--}o "classRoom" : "classRoom"
     "staff" o{--}o "user" : "user"
     "classRoom" o|--|o "staff" : "staff"
@@ -79,7 +79,6 @@ SUBJECT_STATE_STATUS_SUSPEND SUBJECT_STATE_STATUS_SUSPEND
     "subject" o|--|| "SubjectStateStatus" : "enum:status"
     "subject" o|--|| "user" : "user"
     "subject" o{--}o "submission" : "submission"
-    "subject" o|--|o "staff" : "staff"
     "submission" o|--|| "student" : "student"
     "submission" o|--|| "subject" : "subject"
 ```
