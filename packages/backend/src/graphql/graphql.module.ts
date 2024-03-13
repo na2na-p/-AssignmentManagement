@@ -30,6 +30,7 @@ import { ViewerModule } from './Viewer/Viewer.module';
       context: ({ req }: { req: { headers: { authorization: string } } }) => ({
         req,
       }),
+      allowBatchedHttpRequests: true,
     }),
     ViewerModule,
     AuthModule,
